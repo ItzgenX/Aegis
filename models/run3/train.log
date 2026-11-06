@@ -1,0 +1,989 @@
+2026-11-05 17:24:06 - Using CUDA...
+2026-11-05 17:24:06 - Namespace(dataset_type='voc', datasets=['../dataset'], balance_data=False, net='mb1-ssd', resolution=512, freeze_base_net=False, freeze_net=False, mb2_width_mult=1.0, base_net=None, pretrained_ssd='models/mobilenet-v1-ssd-mp-0_675.pth', resume=None, optimizer='sgd', lr=0.01, momentum=0.9, weight_decay=0.0005, gamma=0.1, base_net_lr=0.001, extra_layers_lr=None, scheduler='cosine', milestones='80,100', t_max=60.0, batch_size=16, num_epochs=60, num_workers=6, validation_epochs=1, validation_mean_ap=True, debug_steps=10, use_cuda=True, checkpoint_folder='models/run3', log_level='info')
+2026-11-05 17:24:07 - model resolution 512x512
+2026-11-05 17:24:07 - SSDSpec(feature_map_size=32, shrinkage=16, box_sizes=SSDBoxSizes(min=51.2, max=102.4), aspect_ratios=[2, 3])
+2026-11-05 17:24:07 - SSDSpec(feature_map_size=16, shrinkage=32, box_sizes=SSDBoxSizes(min=102.4, max=189.44), aspect_ratios=[2, 3])
+2026-11-05 17:24:07 - SSDSpec(feature_map_size=8, shrinkage=64, box_sizes=SSDBoxSizes(min=189.44, max=276.48), aspect_ratios=[2, 3])
+2026-11-05 17:24:07 - SSDSpec(feature_map_size=4, shrinkage=128, box_sizes=SSDBoxSizes(min=276.48, max=363.52), aspect_ratios=[2, 3])
+2026-11-05 17:24:07 - SSDSpec(feature_map_size=2, shrinkage=256, box_sizes=SSDBoxSizes(min=363.52, max=450.56), aspect_ratios=[2, 3])
+2026-11-05 17:24:07 - SSDSpec(feature_map_size=1, shrinkage=512, box_sizes=SSDBoxSizes(min=450.56, max=537.6), aspect_ratios=[2, 3])
+2026-11-05 17:24:07 - Prepare training datasets.
+2026-11-05 17:24:16 - VOC Labels read from file:  ('BACKGROUND', 'bottle', 'chair', 'trash-bin', 'table', 'person')
+2026-11-05 17:24:16 - Stored labels into file models/run3\labels.txt.
+2026-11-05 17:24:16 - Train dataset size: 1069
+2026-11-05 17:24:16 - Prepare Validation datasets.
+2026-11-05 17:24:17 - VOC Labels read from file:  ('BACKGROUND', 'bottle', 'chair', 'trash-bin', 'table', 'person')
+2026-11-05 17:24:17 - Validation dataset size: 119
+2026-11-05 17:24:17 - Build network.
+2026-11-05 17:24:18 - VOC Labels read from file:  ('BACKGROUND', 'bottle', 'chair', 'trash-bin', 'table', 'person')
+2026-11-05 17:24:18 - Init from pretrained SSD models/mobilenet-v1-ssd-mp-0_675.pth
+2026-11-05 17:24:18 - Took 0.11 seconds to load the model.
+2026-11-05 17:24:18 - Optimizer: sgd
+2026-11-05 17:24:18 - Learning rate: 0.01, Base net learning rate: 0.001, Extra Layers learning rate: 0.01.
+2026-11-05 17:24:18 - Uses CosineAnnealingLR scheduler.
+2026-11-05 17:24:18 - Start training from epoch 0.
+D:\MyWorkplace\installedSW\miniforge3\envs\autoannot\Lib\site-packages\torch\nn\functional.py:3503: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  reduction = _Reduction.legacy_get_string(size_average, reduce)
+D:\MyWorkplace\installedSW\miniforge3\envs\autoannot\Lib\site-packages\torch\nn\functional.py:3697: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  reduction = _Reduction.legacy_get_string(size_average, reduce)
+2026-11-05 17:25:06 - Epoch: 0, Step: 10/67, Avg Loss: 11.4978, Avg Regression Loss 3.4468, Avg Classification Loss: 8.0510
+2026-11-05 17:25:08 - Epoch: 0, Step: 20/67, Avg Loss: 6.7945, Avg Regression Loss 2.5925, Avg Classification Loss: 4.2020
+2026-11-05 17:25:09 - Epoch: 0, Step: 30/67, Avg Loss: 5.9880, Avg Regression Loss 2.2882, Avg Classification Loss: 3.6998
+2026-11-05 17:25:11 - Epoch: 0, Step: 40/67, Avg Loss: 5.3941, Avg Regression Loss 2.0468, Avg Classification Loss: 3.3473
+2026-11-05 17:25:13 - Epoch: 0, Step: 50/67, Avg Loss: 4.9368, Avg Regression Loss 1.7578, Avg Classification Loss: 3.1790
+2026-11-05 17:25:14 - Epoch: 0, Step: 60/67, Avg Loss: 4.8162, Avg Regression Loss 1.6838, Avg Classification Loss: 3.1324
+2026-11-05 17:25:46 - Epoch: 0, Training Loss: 6.2843, Training Regression Loss 2.2043, Training Classification Loss: 4.0800
+2026-11-05 17:26:27 - Epoch: 0, Validation Loss: 4.0813, Validation Regression Loss 1.3464, Validation Classification Loss: 2.7350
+2026-11-05 17:27:13 - Epoch: 0, Average Precision Per-class:
+2026-11-05 17:27:13 -     bottle: 0.4950800135717521
+2026-11-05 17:27:13 -     chair: 0.43651223943396134
+2026-11-05 17:27:13 -     trash-bin: 0.7389437346058167
+2026-11-05 17:27:13 -     table: 0.304746628581298
+2026-11-05 17:27:13 -     person: 0.6135084305256349
+2026-11-05 17:27:13 - Epoch: 0, Mean Average Precision (mAP):  0.5177582093436927
+2026-11-05 17:27:13 - Saved model models/run3\mb1-ssd-Epoch-0-Loss-4.08134338259697.pth
+2026-11-05 17:27:16 - Epoch: 1, Step: 10/67, Avg Loss: 4.9313, Avg Regression Loss 1.7771, Avg Classification Loss: 3.1542
+2026-11-05 17:27:17 - Epoch: 1, Step: 20/67, Avg Loss: 4.2223, Avg Regression Loss 1.5108, Avg Classification Loss: 2.7115
+2026-11-05 17:27:19 - Epoch: 1, Step: 30/67, Avg Loss: 4.1063, Avg Regression Loss 1.4831, Avg Classification Loss: 2.6232
+2026-11-05 17:27:21 - Epoch: 1, Step: 40/67, Avg Loss: 4.1344, Avg Regression Loss 1.4728, Avg Classification Loss: 2.6616
+2026-11-05 17:27:22 - Epoch: 1, Step: 50/67, Avg Loss: 3.8674, Avg Regression Loss 1.3648, Avg Classification Loss: 2.5027
+2026-11-05 17:27:24 - Epoch: 1, Step: 60/67, Avg Loss: 4.0925, Avg Regression Loss 1.4900, Avg Classification Loss: 2.6025
+2026-11-05 17:27:25 - Epoch: 1, Training Loss: 4.1185, Training Regression Loss 1.4749, Training Classification Loss: 2.6436
+2026-11-05 17:27:26 - Epoch: 1, Validation Loss: 3.4554, Validation Regression Loss 1.0942, Validation Classification Loss: 2.3612
+2026-11-05 17:27:39 - Epoch: 1, Average Precision Per-class:
+2026-11-05 17:27:39 -     bottle: 0.581333806983827
+2026-11-05 17:27:39 -     chair: 0.6270789419115644
+2026-11-05 17:27:39 -     trash-bin: 0.7949813971501398
+2026-11-05 17:27:39 -     table: 0.44247758304734214
+2026-11-05 17:27:39 -     person: 0.7125186999494533
+2026-11-05 17:27:39 - Epoch: 1, Mean Average Precision (mAP):  0.6316780858084654
+2026-11-05 17:27:40 - Saved model models/run3\mb1-ssd-Epoch-1-Loss-3.455427646636963.pth
+2026-11-05 17:27:42 - Epoch: 2, Step: 10/67, Avg Loss: 4.0486, Avg Regression Loss 1.3854, Avg Classification Loss: 2.6632
+2026-11-05 17:27:44 - Epoch: 2, Step: 20/67, Avg Loss: 3.7459, Avg Regression Loss 1.3220, Avg Classification Loss: 2.4239
+2026-11-05 17:27:46 - Epoch: 2, Step: 30/67, Avg Loss: 3.7404, Avg Regression Loss 1.2944, Avg Classification Loss: 2.4460
+2026-11-05 17:27:48 - Epoch: 2, Step: 40/67, Avg Loss: 3.6308, Avg Regression Loss 1.2572, Avg Classification Loss: 2.3736
+2026-11-05 17:27:49 - Epoch: 2, Step: 50/67, Avg Loss: 3.7722, Avg Regression Loss 1.3158, Avg Classification Loss: 2.4564
+2026-11-05 17:27:51 - Epoch: 2, Step: 60/67, Avg Loss: 3.4672, Avg Regression Loss 1.1744, Avg Classification Loss: 2.2928
+2026-11-05 17:27:52 - Epoch: 2, Training Loss: 3.6651, Training Regression Loss 1.2679, Training Classification Loss: 2.3972
+2026-11-05 17:27:53 - Epoch: 2, Validation Loss: 3.2694, Validation Regression Loss 1.0628, Validation Classification Loss: 2.2066
+2026-11-05 17:28:06 - Epoch: 2, Average Precision Per-class:
+2026-11-05 17:28:06 -     bottle: 0.6028319731730317
+2026-11-05 17:28:06 -     chair: 0.6526343314507257
+2026-11-05 17:28:06 -     trash-bin: 0.8384738397561818
+2026-11-05 17:28:06 -     table: 0.5795402652670536
+2026-11-05 17:28:06 -     person: 0.7110980517344493
+2026-11-05 17:28:06 - Epoch: 2, Mean Average Precision (mAP):  0.6769156922762886
+2026-11-05 17:28:07 - Saved model models/run3\mb1-ssd-Epoch-2-Loss-3.2694499492645264.pth
+2026-11-05 17:28:09 - Epoch: 3, Step: 10/67, Avg Loss: 3.6393, Avg Regression Loss 1.2368, Avg Classification Loss: 2.4025
+2026-11-05 17:28:11 - Epoch: 3, Step: 20/67, Avg Loss: 3.3260, Avg Regression Loss 1.1182, Avg Classification Loss: 2.2078
+2026-11-05 17:28:13 - Epoch: 3, Step: 30/67, Avg Loss: 3.3081, Avg Regression Loss 1.1487, Avg Classification Loss: 2.1594
+2026-11-05 17:28:14 - Epoch: 3, Step: 40/67, Avg Loss: 3.3253, Avg Regression Loss 1.1765, Avg Classification Loss: 2.1488
+2026-11-05 17:28:16 - Epoch: 3, Step: 50/67, Avg Loss: 3.4439, Avg Regression Loss 1.1962, Avg Classification Loss: 2.2476
+2026-11-05 17:28:17 - Epoch: 3, Step: 60/67, Avg Loss: 3.2709, Avg Regression Loss 1.1172, Avg Classification Loss: 2.1537
+2026-11-05 17:28:18 - Epoch: 3, Training Loss: 3.3360, Training Regression Loss 1.1501, Training Classification Loss: 2.1859
+2026-11-05 17:28:19 - Epoch: 3, Validation Loss: 3.0722, Validation Regression Loss 0.9790, Validation Classification Loss: 2.0932
+2026-11-05 17:28:31 - Epoch: 3, Average Precision Per-class:
+2026-11-05 17:28:31 -     bottle: 0.6489617660992786
+2026-11-05 17:28:31 -     chair: 0.6885677948950918
+2026-11-05 17:28:31 -     trash-bin: 0.8394345023081043
+2026-11-05 17:28:31 -     table: 0.5908232729153936
+2026-11-05 17:28:31 -     person: 0.7193568672976539
+2026-11-05 17:28:31 - Epoch: 3, Mean Average Precision (mAP):  0.6974288407031045
+2026-11-05 17:28:31 - Saved model models/run3\mb1-ssd-Epoch-3-Loss-3.072167694568634.pth
+2026-11-05 17:28:33 - Epoch: 4, Step: 10/67, Avg Loss: 3.5630, Avg Regression Loss 1.1938, Avg Classification Loss: 2.3692
+2026-11-05 17:28:35 - Epoch: 4, Step: 20/67, Avg Loss: 3.3601, Avg Regression Loss 1.1514, Avg Classification Loss: 2.2087
+2026-11-05 17:28:37 - Epoch: 4, Step: 30/67, Avg Loss: 3.2998, Avg Regression Loss 1.1097, Avg Classification Loss: 2.1902
+2026-11-05 17:28:38 - Epoch: 4, Step: 40/67, Avg Loss: 3.0179, Avg Regression Loss 0.9733, Avg Classification Loss: 2.0445
+2026-11-05 17:28:40 - Epoch: 4, Step: 50/67, Avg Loss: 3.0985, Avg Regression Loss 1.0372, Avg Classification Loss: 2.0613
+2026-11-05 17:28:42 - Epoch: 4, Step: 60/67, Avg Loss: 3.0774, Avg Regression Loss 1.0020, Avg Classification Loss: 2.0754
+2026-11-05 17:28:43 - Epoch: 4, Training Loss: 3.1663, Training Regression Loss 1.0546, Training Classification Loss: 2.1117
+2026-11-05 17:28:44 - Epoch: 4, Validation Loss: 2.9422, Validation Regression Loss 0.9095, Validation Classification Loss: 2.0327
+2026-11-05 17:28:56 - Epoch: 4, Average Precision Per-class:
+2026-11-05 17:28:56 -     bottle: 0.637258276007929
+2026-11-05 17:28:56 -     chair: 0.7224960833571528
+2026-11-05 17:28:56 -     trash-bin: 0.8491909281252837
+2026-11-05 17:28:56 -     table: 0.5902658928948461
+2026-11-05 17:28:56 -     person: 0.6828608039165729
+2026-11-05 17:28:56 - Epoch: 4, Mean Average Precision (mAP):  0.6964143968603569
+2026-11-05 17:28:56 - Saved model models/run3\mb1-ssd-Epoch-4-Loss-2.9421829283237457.pth
+2026-11-05 17:28:59 - Epoch: 5, Step: 10/67, Avg Loss: 3.4243, Avg Regression Loss 1.1409, Avg Classification Loss: 2.2834
+2026-11-05 17:29:01 - Epoch: 5, Step: 20/67, Avg Loss: 3.0664, Avg Regression Loss 1.0543, Avg Classification Loss: 2.0121
+2026-11-05 17:29:02 - Epoch: 5, Step: 30/67, Avg Loss: 3.1160, Avg Regression Loss 1.0766, Avg Classification Loss: 2.0394
+2026-11-05 17:29:04 - Epoch: 5, Step: 40/67, Avg Loss: 3.0742, Avg Regression Loss 1.0043, Avg Classification Loss: 2.0699
+2026-11-05 17:29:06 - Epoch: 5, Step: 50/67, Avg Loss: 3.2011, Avg Regression Loss 1.0690, Avg Classification Loss: 2.1320
+2026-11-05 17:29:07 - Epoch: 5, Step: 60/67, Avg Loss: 3.0689, Avg Regression Loss 1.0288, Avg Classification Loss: 2.0401
+2026-11-05 17:29:08 - Epoch: 5, Training Loss: 3.1054, Training Regression Loss 1.0396, Training Classification Loss: 2.0658
+2026-11-05 17:29:09 - Epoch: 5, Validation Loss: 2.8580, Validation Regression Loss 0.8842, Validation Classification Loss: 1.9738
+2026-11-05 17:29:21 - Epoch: 5, Average Precision Per-class:
+2026-11-05 17:29:21 -     bottle: 0.6428619617121334
+2026-11-05 17:29:21 -     chair: 0.7117878580019029
+2026-11-05 17:29:21 -     trash-bin: 0.847373648817459
+2026-11-05 17:29:21 -     table: 0.6548490253245884
+2026-11-05 17:29:21 -     person: 0.7384900995971511
+2026-11-05 17:29:21 - Epoch: 5, Mean Average Precision (mAP):  0.719072518690647
+2026-11-05 17:29:21 - Saved model models/run3\mb1-ssd-Epoch-5-Loss-2.858042985200882.pth
+2026-11-05 17:29:24 - Epoch: 6, Step: 10/67, Avg Loss: 3.4178, Avg Regression Loss 1.1400, Avg Classification Loss: 2.2779
+2026-11-05 17:29:26 - Epoch: 6, Step: 20/67, Avg Loss: 2.8872, Avg Regression Loss 0.9659, Avg Classification Loss: 1.9212
+2026-11-05 17:29:28 - Epoch: 6, Step: 30/67, Avg Loss: 2.9469, Avg Regression Loss 0.9717, Avg Classification Loss: 1.9753
+2026-11-05 17:29:29 - Epoch: 6, Step: 40/67, Avg Loss: 3.0291, Avg Regression Loss 1.0002, Avg Classification Loss: 2.0290
+2026-11-05 17:29:31 - Epoch: 6, Step: 50/67, Avg Loss: 3.0273, Avg Regression Loss 0.9735, Avg Classification Loss: 2.0538
+2026-11-05 17:29:33 - Epoch: 6, Step: 60/67, Avg Loss: 2.9516, Avg Regression Loss 0.9481, Avg Classification Loss: 2.0035
+2026-11-05 17:29:34 - Epoch: 6, Training Loss: 2.9886, Training Regression Loss 0.9792, Training Classification Loss: 2.0094
+2026-11-05 17:29:35 - Epoch: 6, Validation Loss: 2.7566, Validation Regression Loss 0.8508, Validation Classification Loss: 1.9057
+2026-11-05 17:29:47 - Epoch: 6, Average Precision Per-class:
+2026-11-05 17:29:47 -     bottle: 0.6647340903854636
+2026-11-05 17:29:47 -     chair: 0.7530161035005851
+2026-11-05 17:29:47 -     trash-bin: 0.8688182333867253
+2026-11-05 17:29:47 -     table: 0.5891510789267445
+2026-11-05 17:29:47 -     person: 0.7036543499921024
+2026-11-05 17:29:47 - Epoch: 6, Mean Average Precision (mAP):  0.7158747712383242
+2026-11-05 17:29:47 - Saved model models/run3\mb1-ssd-Epoch-6-Loss-2.756575331091881.pth
+2026-11-05 17:29:50 - Epoch: 7, Step: 10/67, Avg Loss: 3.2426, Avg Regression Loss 1.0717, Avg Classification Loss: 2.1709
+2026-11-05 17:29:51 - Epoch: 7, Step: 20/67, Avg Loss: 2.9587, Avg Regression Loss 0.9477, Avg Classification Loss: 2.0110
+2026-11-05 17:29:53 - Epoch: 7, Step: 30/67, Avg Loss: 3.0697, Avg Regression Loss 1.0423, Avg Classification Loss: 2.0273
+2026-11-05 17:29:55 - Epoch: 7, Step: 40/67, Avg Loss: 2.8207, Avg Regression Loss 0.9096, Avg Classification Loss: 1.9111
+2026-11-05 17:29:56 - Epoch: 7, Step: 50/67, Avg Loss: 2.8993, Avg Regression Loss 1.0018, Avg Classification Loss: 1.8975
+2026-11-05 17:29:58 - Epoch: 7, Step: 60/67, Avg Loss: 3.0452, Avg Regression Loss 1.0552, Avg Classification Loss: 1.9900
+2026-11-05 17:29:59 - Epoch: 7, Training Loss: 2.9407, Training Regression Loss 0.9779, Training Classification Loss: 1.9628
+2026-11-05 17:30:00 - Epoch: 7, Validation Loss: 2.6881, Validation Regression Loss 0.8254, Validation Classification Loss: 1.8627
+2026-11-05 17:30:11 - Epoch: 7, Average Precision Per-class:
+2026-11-05 17:30:11 -     bottle: 0.6475060672455988
+2026-11-05 17:30:11 -     chair: 0.7628604634766083
+2026-11-05 17:30:11 -     trash-bin: 0.8701850916034493
+2026-11-05 17:30:11 -     table: 0.6631057080206318
+2026-11-05 17:30:11 -     person: 0.7696754582642065
+2026-11-05 17:30:11 - Epoch: 7, Mean Average Precision (mAP):  0.7426665577220989
+2026-11-05 17:30:11 - Saved model models/run3\mb1-ssd-Epoch-7-Loss-2.6880940794944763.pth
+2026-11-05 17:30:14 - Epoch: 8, Step: 10/67, Avg Loss: 3.2696, Avg Regression Loss 1.1146, Avg Classification Loss: 2.1550
+2026-11-05 17:30:15 - Epoch: 8, Step: 20/67, Avg Loss: 2.9103, Avg Regression Loss 0.9696, Avg Classification Loss: 1.9406
+2026-11-05 17:30:17 - Epoch: 8, Step: 30/67, Avg Loss: 2.8808, Avg Regression Loss 0.9218, Avg Classification Loss: 1.9590
+2026-11-05 17:30:19 - Epoch: 8, Step: 40/67, Avg Loss: 2.9045, Avg Regression Loss 0.9658, Avg Classification Loss: 1.9387
+2026-11-05 17:30:21 - Epoch: 8, Step: 50/67, Avg Loss: 2.6575, Avg Regression Loss 0.7889, Avg Classification Loss: 1.8686
+2026-11-05 17:30:22 - Epoch: 8, Step: 60/67, Avg Loss: 2.8736, Avg Regression Loss 0.9377, Avg Classification Loss: 1.9359
+2026-11-05 17:30:23 - Epoch: 8, Training Loss: 2.8659, Training Regression Loss 0.9347, Training Classification Loss: 1.9313
+2026-11-05 17:30:24 - Epoch: 8, Validation Loss: 2.6881, Validation Regression Loss 0.8086, Validation Classification Loss: 1.8795
+2026-11-05 17:30:35 - Epoch: 8, Average Precision Per-class:
+2026-11-05 17:30:35 -     bottle: 0.6798133879491548
+2026-11-05 17:30:35 -     chair: 0.752692070123477
+2026-11-05 17:30:35 -     trash-bin: 0.860660736614429
+2026-11-05 17:30:35 -     table: 0.650402317722295
+2026-11-05 17:30:35 -     person: 0.7661231291950794
+2026-11-05 17:30:35 - Epoch: 8, Mean Average Precision (mAP):  0.7419383283208869
+2026-11-05 17:30:35 - Saved model models/run3\mb1-ssd-Epoch-8-Loss-2.6880656480789185.pth
+2026-11-05 17:30:38 - Epoch: 9, Step: 10/67, Avg Loss: 3.0403, Avg Regression Loss 0.9576, Avg Classification Loss: 2.0827
+2026-11-05 17:30:39 - Epoch: 9, Step: 20/67, Avg Loss: 2.7830, Avg Regression Loss 0.9275, Avg Classification Loss: 1.8555
+2026-11-05 17:30:41 - Epoch: 9, Step: 30/67, Avg Loss: 2.8043, Avg Regression Loss 0.9192, Avg Classification Loss: 1.8852
+2026-11-05 17:30:43 - Epoch: 9, Step: 40/67, Avg Loss: 2.7880, Avg Regression Loss 0.9139, Avg Classification Loss: 1.8741
+2026-11-05 17:30:45 - Epoch: 9, Step: 50/67, Avg Loss: 2.7401, Avg Regression Loss 0.9001, Avg Classification Loss: 1.8400
+2026-11-05 17:30:46 - Epoch: 9, Step: 60/67, Avg Loss: 2.9202, Avg Regression Loss 1.0044, Avg Classification Loss: 1.9158
+2026-11-05 17:30:47 - Epoch: 9, Training Loss: 2.8090, Training Regression Loss 0.9311, Training Classification Loss: 1.8779
+2026-11-05 17:30:48 - Epoch: 9, Validation Loss: 2.7133, Validation Regression Loss 0.8131, Validation Classification Loss: 1.9001
+2026-11-05 17:30:59 - Epoch: 9, Average Precision Per-class:
+2026-11-05 17:30:59 -     bottle: 0.6693606833111508
+2026-11-05 17:30:59 -     chair: 0.7276151885199007
+2026-11-05 17:30:59 -     trash-bin: 0.8607249105698479
+2026-11-05 17:30:59 -     table: 0.6299730347549398
+2026-11-05 17:30:59 -     person: 0.7560612071766649
+2026-11-05 17:30:59 - Epoch: 9, Mean Average Precision (mAP):  0.7287470048665009
+2026-11-05 17:30:59 - Saved model models/run3\mb1-ssd-Epoch-9-Loss-2.7132761776447296.pth
+2026-11-05 17:31:02 - Epoch: 10, Step: 10/67, Avg Loss: 2.9292, Avg Regression Loss 0.9517, Avg Classification Loss: 1.9775
+2026-11-05 17:31:04 - Epoch: 10, Step: 20/67, Avg Loss: 2.7947, Avg Regression Loss 0.9008, Avg Classification Loss: 1.8939
+2026-11-05 17:31:05 - Epoch: 10, Step: 30/67, Avg Loss: 2.6546, Avg Regression Loss 0.8573, Avg Classification Loss: 1.7973
+2026-11-05 17:31:07 - Epoch: 10, Step: 40/67, Avg Loss: 2.7745, Avg Regression Loss 0.9138, Avg Classification Loss: 1.8607
+2026-11-05 17:31:09 - Epoch: 10, Step: 50/67, Avg Loss: 2.6237, Avg Regression Loss 0.8624, Avg Classification Loss: 1.7613
+2026-11-05 17:31:10 - Epoch: 10, Step: 60/67, Avg Loss: 2.7245, Avg Regression Loss 0.9255, Avg Classification Loss: 1.7989
+2026-11-05 17:31:11 - Epoch: 10, Training Loss: 2.6803, Training Regression Loss 0.8760, Training Classification Loss: 1.8043
+2026-11-05 17:31:12 - Epoch: 10, Validation Loss: 2.6543, Validation Regression Loss 0.8107, Validation Classification Loss: 1.8436
+2026-11-05 17:31:24 - Epoch: 10, Average Precision Per-class:
+2026-11-05 17:31:24 -     bottle: 0.683599102214088
+2026-11-05 17:31:24 -     chair: 0.7481071846697087
+2026-11-05 17:31:24 -     trash-bin: 0.8655513428504957
+2026-11-05 17:31:24 -     table: 0.6730839171390628
+2026-11-05 17:31:24 -     person: 0.7614847023642912
+2026-11-05 17:31:24 - Epoch: 10, Mean Average Precision (mAP):  0.7463652498475293
+2026-11-05 17:31:24 - Saved model models/run3\mb1-ssd-Epoch-10-Loss-2.6542886793613434.pth
+2026-11-05 17:31:27 - Epoch: 11, Step: 10/67, Avg Loss: 2.8465, Avg Regression Loss 0.9233, Avg Classification Loss: 1.9232
+2026-11-05 17:31:28 - Epoch: 11, Step: 20/67, Avg Loss: 2.6243, Avg Regression Loss 0.8198, Avg Classification Loss: 1.8044
+2026-11-05 17:31:30 - Epoch: 11, Step: 30/67, Avg Loss: 2.7053, Avg Regression Loss 0.8867, Avg Classification Loss: 1.8186
+2026-11-05 17:31:32 - Epoch: 11, Step: 40/67, Avg Loss: 2.7055, Avg Regression Loss 0.8862, Avg Classification Loss: 1.8193
+2026-11-05 17:31:34 - Epoch: 11, Step: 50/67, Avg Loss: 2.5185, Avg Regression Loss 0.7823, Avg Classification Loss: 1.7363
+2026-11-05 17:31:35 - Epoch: 11, Step: 60/67, Avg Loss: 2.6611, Avg Regression Loss 0.8281, Avg Classification Loss: 1.8330
+2026-11-05 17:31:36 - Epoch: 11, Training Loss: 2.6422, Training Regression Loss 0.8435, Training Classification Loss: 1.7987
+2026-11-05 17:31:37 - Epoch: 11, Validation Loss: 2.5770, Validation Regression Loss 0.7890, Validation Classification Loss: 1.7880
+2026-11-05 17:31:48 - Epoch: 11, Average Precision Per-class:
+2026-11-05 17:31:48 -     bottle: 0.6974721033727639
+2026-11-05 17:31:48 -     chair: 0.7850437605872388
+2026-11-05 17:31:48 -     trash-bin: 0.8785383399214448
+2026-11-05 17:31:48 -     table: 0.6474299517474618
+2026-11-05 17:31:48 -     person: 0.7726427513265751
+2026-11-05 17:31:48 - Epoch: 11, Mean Average Precision (mAP):  0.7562253813910969
+2026-11-05 17:31:48 - Saved model models/run3\mb1-ssd-Epoch-11-Loss-2.5769715756177902.pth
+2026-11-05 17:31:51 - Epoch: 12, Step: 10/67, Avg Loss: 3.0125, Avg Regression Loss 0.9825, Avg Classification Loss: 2.0299
+2026-11-05 17:31:52 - Epoch: 12, Step: 20/67, Avg Loss: 2.6871, Avg Regression Loss 0.8658, Avg Classification Loss: 1.8213
+2026-11-05 17:31:54 - Epoch: 12, Step: 30/67, Avg Loss: 2.6132, Avg Regression Loss 0.8406, Avg Classification Loss: 1.7726
+2026-11-05 17:31:56 - Epoch: 12, Step: 40/67, Avg Loss: 2.7041, Avg Regression Loss 0.8509, Avg Classification Loss: 1.8532
+2026-11-05 17:31:58 - Epoch: 12, Step: 50/67, Avg Loss: 2.6115, Avg Regression Loss 0.8412, Avg Classification Loss: 1.7702
+2026-11-05 17:31:59 - Epoch: 12, Step: 60/67, Avg Loss: 2.6406, Avg Regression Loss 0.8341, Avg Classification Loss: 1.8065
+2026-11-05 17:32:00 - Epoch: 12, Training Loss: 2.6675, Training Regression Loss 0.8555, Training Classification Loss: 1.8120
+2026-11-05 17:32:01 - Epoch: 12, Validation Loss: 2.6344, Validation Regression Loss 0.8056, Validation Classification Loss: 1.8288
+2026-11-05 17:32:12 - Epoch: 12, Average Precision Per-class:
+2026-11-05 17:32:12 -     bottle: 0.6998899734302615
+2026-11-05 17:32:12 -     chair: 0.7514804298561513
+2026-11-05 17:32:12 -     trash-bin: 0.8754970270152779
+2026-11-05 17:32:12 -     table: 0.5869300326331016
+2026-11-05 17:32:12 -     person: 0.7641881154484816
+2026-11-05 17:32:12 - Epoch: 12, Mean Average Precision (mAP):  0.7355971156766549
+2026-11-05 17:32:12 - Saved model models/run3\mb1-ssd-Epoch-12-Loss-2.634397476911545.pth
+2026-11-05 17:32:15 - Epoch: 13, Step: 10/67, Avg Loss: 2.8219, Avg Regression Loss 0.9282, Avg Classification Loss: 1.8937
+2026-11-05 17:32:16 - Epoch: 13, Step: 20/67, Avg Loss: 2.4419, Avg Regression Loss 0.7566, Avg Classification Loss: 1.6853
+2026-11-05 17:32:18 - Epoch: 13, Step: 30/67, Avg Loss: 2.6632, Avg Regression Loss 0.8204, Avg Classification Loss: 1.8428
+2026-11-05 17:32:20 - Epoch: 13, Step: 40/67, Avg Loss: 2.6797, Avg Regression Loss 0.8825, Avg Classification Loss: 1.7972
+2026-11-05 17:32:21 - Epoch: 13, Step: 50/67, Avg Loss: 2.7983, Avg Regression Loss 0.8990, Avg Classification Loss: 1.8993
+2026-11-05 17:32:23 - Epoch: 13, Step: 60/67, Avg Loss: 2.6268, Avg Regression Loss 0.8363, Avg Classification Loss: 1.7905
+2026-11-05 17:32:24 - Epoch: 13, Training Loss: 2.6060, Training Regression Loss 0.8303, Training Classification Loss: 1.7757
+2026-11-05 17:32:25 - Epoch: 13, Validation Loss: 2.4792, Validation Regression Loss 0.7580, Validation Classification Loss: 1.7211
+2026-11-05 17:32:36 - Epoch: 13, Average Precision Per-class:
+2026-11-05 17:32:36 -     bottle: 0.7191594501318902
+2026-11-05 17:32:36 -     chair: 0.7759054445422485
+2026-11-05 17:32:36 -     trash-bin: 0.8868504616639012
+2026-11-05 17:32:36 -     table: 0.6449701758426882
+2026-11-05 17:32:36 -     person: 0.7845577938599025
+2026-11-05 17:32:36 - Epoch: 13, Mean Average Precision (mAP):  0.7622886652081262
+2026-11-05 17:32:36 - Saved model models/run3\mb1-ssd-Epoch-13-Loss-2.4791592061519623.pth
+2026-11-05 17:32:39 - Epoch: 14, Step: 10/67, Avg Loss: 2.7726, Avg Regression Loss 0.8760, Avg Classification Loss: 1.8965
+2026-11-05 17:32:40 - Epoch: 14, Step: 20/67, Avg Loss: 2.5471, Avg Regression Loss 0.8332, Avg Classification Loss: 1.7139
+2026-11-05 17:32:42 - Epoch: 14, Step: 30/67, Avg Loss: 2.6772, Avg Regression Loss 0.9076, Avg Classification Loss: 1.7696
+2026-11-05 17:32:44 - Epoch: 14, Step: 40/67, Avg Loss: 2.5914, Avg Regression Loss 0.8397, Avg Classification Loss: 1.7518
+2026-11-05 17:32:45 - Epoch: 14, Step: 50/67, Avg Loss: 2.6474, Avg Regression Loss 0.8334, Avg Classification Loss: 1.8140
+2026-11-05 17:32:47 - Epoch: 14, Step: 60/67, Avg Loss: 2.5883, Avg Regression Loss 0.8161, Avg Classification Loss: 1.7722
+2026-11-05 17:32:48 - Epoch: 14, Training Loss: 2.5958, Training Regression Loss 0.8378, Training Classification Loss: 1.7580
+2026-11-05 17:32:49 - Epoch: 14, Validation Loss: 2.4782, Validation Regression Loss 0.7462, Validation Classification Loss: 1.7320
+2026-11-05 17:32:59 - Epoch: 14, Average Precision Per-class:
+2026-11-05 17:32:59 -     bottle: 0.7237347164139133
+2026-11-05 17:32:59 -     chair: 0.7848051341556043
+2026-11-05 17:32:59 -     trash-bin: 0.8848783126267705
+2026-11-05 17:32:59 -     table: 0.6770245320232409
+2026-11-05 17:32:59 -     person: 0.7952511127837426
+2026-11-05 17:32:59 - Epoch: 14, Mean Average Precision (mAP):  0.7731387616006543
+2026-11-05 17:32:59 - Saved model models/run3\mb1-ssd-Epoch-14-Loss-2.4781714975833893.pth
+2026-11-05 17:33:02 - Epoch: 15, Step: 10/67, Avg Loss: 2.9606, Avg Regression Loss 0.9557, Avg Classification Loss: 2.0049
+2026-11-05 17:33:03 - Epoch: 15, Step: 20/67, Avg Loss: 2.5635, Avg Regression Loss 0.8173, Avg Classification Loss: 1.7461
+2026-11-05 17:33:05 - Epoch: 15, Step: 30/67, Avg Loss: 2.6245, Avg Regression Loss 0.8518, Avg Classification Loss: 1.7727
+2026-11-05 17:33:07 - Epoch: 15, Step: 40/67, Avg Loss: 2.5992, Avg Regression Loss 0.8445, Avg Classification Loss: 1.7547
+2026-11-05 17:33:08 - Epoch: 15, Step: 50/67, Avg Loss: 2.5062, Avg Regression Loss 0.7820, Avg Classification Loss: 1.7241
+2026-11-05 17:33:10 - Epoch: 15, Step: 60/67, Avg Loss: 2.5175, Avg Regression Loss 0.8174, Avg Classification Loss: 1.7001
+2026-11-05 17:33:11 - Epoch: 15, Training Loss: 2.5888, Training Regression Loss 0.8323, Training Classification Loss: 1.7566
+2026-11-05 17:33:12 - Epoch: 15, Validation Loss: 2.3930, Validation Regression Loss 0.7123, Validation Classification Loss: 1.6808
+2026-11-05 17:33:21 - Epoch: 15, Average Precision Per-class:
+2026-11-05 17:33:21 -     bottle: 0.7250856072075813
+2026-11-05 17:33:21 -     chair: 0.779519857616063
+2026-11-05 17:33:21 -     trash-bin: 0.8837451414588533
+2026-11-05 17:33:21 -     table: 0.6604211690932413
+2026-11-05 17:33:21 -     person: 0.7516789514217036
+2026-11-05 17:33:21 - Epoch: 15, Mean Average Precision (mAP):  0.7600901453594886
+2026-11-05 17:33:22 - Saved model models/run3\mb1-ssd-Epoch-15-Loss-2.393032267689705.pth
+2026-11-05 17:33:25 - Epoch: 16, Step: 10/67, Avg Loss: 2.8782, Avg Regression Loss 0.9579, Avg Classification Loss: 1.9203
+2026-11-05 17:33:26 - Epoch: 16, Step: 20/67, Avg Loss: 2.5072, Avg Regression Loss 0.7942, Avg Classification Loss: 1.7129
+2026-11-05 17:33:28 - Epoch: 16, Step: 30/67, Avg Loss: 2.5535, Avg Regression Loss 0.8301, Avg Classification Loss: 1.7234
+2026-11-05 17:33:30 - Epoch: 16, Step: 40/67, Avg Loss: 2.4450, Avg Regression Loss 0.7658, Avg Classification Loss: 1.6792
+2026-11-05 17:33:31 - Epoch: 16, Step: 50/67, Avg Loss: 2.5845, Avg Regression Loss 0.7973, Avg Classification Loss: 1.7871
+2026-11-05 17:33:33 - Epoch: 16, Step: 60/67, Avg Loss: 2.4780, Avg Regression Loss 0.7752, Avg Classification Loss: 1.7028
+2026-11-05 17:33:34 - Epoch: 16, Training Loss: 2.5233, Training Regression Loss 0.8010, Training Classification Loss: 1.7223
+2026-11-05 17:33:35 - Epoch: 16, Validation Loss: 2.4534, Validation Regression Loss 0.7318, Validation Classification Loss: 1.7216
+2026-11-05 17:33:45 - Epoch: 16, Average Precision Per-class:
+2026-11-05 17:33:45 -     bottle: 0.7373971385366206
+2026-11-05 17:33:45 -     chair: 0.7661182697038474
+2026-11-05 17:33:45 -     trash-bin: 0.883744499861467
+2026-11-05 17:33:45 -     table: 0.6824475079086856
+2026-11-05 17:33:45 -     person: 0.78987782360646
+2026-11-05 17:33:45 - Epoch: 16, Mean Average Precision (mAP):  0.7719170479234162
+2026-11-05 17:33:45 - Saved model models/run3\mb1-ssd-Epoch-16-Loss-2.453379526734352.pth
+2026-11-05 17:33:48 - Epoch: 17, Step: 10/67, Avg Loss: 2.5387, Avg Regression Loss 0.7936, Avg Classification Loss: 1.7451
+2026-11-05 17:33:50 - Epoch: 17, Step: 20/67, Avg Loss: 2.4696, Avg Regression Loss 0.7845, Avg Classification Loss: 1.6851
+2026-11-05 17:33:52 - Epoch: 17, Step: 30/67, Avg Loss: 2.4777, Avg Regression Loss 0.7692, Avg Classification Loss: 1.7085
+2026-11-05 17:33:53 - Epoch: 17, Step: 40/67, Avg Loss: 2.5158, Avg Regression Loss 0.8130, Avg Classification Loss: 1.7028
+2026-11-05 17:33:55 - Epoch: 17, Step: 50/67, Avg Loss: 2.4960, Avg Regression Loss 0.8075, Avg Classification Loss: 1.6885
+2026-11-05 17:33:57 - Epoch: 17, Step: 60/67, Avg Loss: 2.6453, Avg Regression Loss 0.8627, Avg Classification Loss: 1.7827
+2026-11-05 17:33:58 - Epoch: 17, Training Loss: 2.4822, Training Regression Loss 0.7881, Training Classification Loss: 1.6941
+2026-11-05 17:33:59 - Epoch: 17, Validation Loss: 2.4940, Validation Regression Loss 0.7539, Validation Classification Loss: 1.7401
+2026-11-05 17:34:09 - Epoch: 17, Average Precision Per-class:
+2026-11-05 17:34:09 -     bottle: 0.7173842419878131
+2026-11-05 17:34:09 -     chair: 0.7661568135725438
+2026-11-05 17:34:09 -     trash-bin: 0.8912583091578969
+2026-11-05 17:34:09 -     table: 0.6540712932716384
+2026-11-05 17:34:09 -     person: 0.7686608950733549
+2026-11-05 17:34:09 - Epoch: 17, Mean Average Precision (mAP):  0.7595063106126494
+2026-11-05 17:34:09 - Saved model models/run3\mb1-ssd-Epoch-17-Loss-2.49402517080307.pth
+2026-11-05 17:34:12 - Epoch: 18, Step: 10/67, Avg Loss: 2.7264, Avg Regression Loss 0.8770, Avg Classification Loss: 1.8494
+2026-11-05 17:34:13 - Epoch: 18, Step: 20/67, Avg Loss: 2.4703, Avg Regression Loss 0.7620, Avg Classification Loss: 1.7082
+2026-11-05 17:34:15 - Epoch: 18, Step: 30/67, Avg Loss: 2.3792, Avg Regression Loss 0.7365, Avg Classification Loss: 1.6427
+2026-11-05 17:34:17 - Epoch: 18, Step: 40/67, Avg Loss: 2.4883, Avg Regression Loss 0.8109, Avg Classification Loss: 1.6773
+2026-11-05 17:34:18 - Epoch: 18, Step: 50/67, Avg Loss: 2.4255, Avg Regression Loss 0.7552, Avg Classification Loss: 1.6704
+2026-11-05 17:34:20 - Epoch: 18, Step: 60/67, Avg Loss: 2.4238, Avg Regression Loss 0.7458, Avg Classification Loss: 1.6780
+2026-11-05 17:34:21 - Epoch: 18, Training Loss: 2.4482, Training Regression Loss 0.7697, Training Classification Loss: 1.6784
+2026-11-05 17:34:22 - Epoch: 18, Validation Loss: 2.3936, Validation Regression Loss 0.7157, Validation Classification Loss: 1.6779
+2026-11-05 17:34:31 - Epoch: 18, Average Precision Per-class:
+2026-11-05 17:34:31 -     bottle: 0.729905038815245
+2026-11-05 17:34:31 -     chair: 0.7929352032615421
+2026-11-05 17:34:31 -     trash-bin: 0.8911501836101814
+2026-11-05 17:34:31 -     table: 0.6695882255953977
+2026-11-05 17:34:31 -     person: 0.8041679522707674
+2026-11-05 17:34:31 - Epoch: 18, Mean Average Precision (mAP):  0.7775493207106268
+2026-11-05 17:34:31 - Saved model models/run3\mb1-ssd-Epoch-18-Loss-2.3936381340026855.pth
+2026-11-05 17:34:33 - Epoch: 19, Step: 10/67, Avg Loss: 2.7223, Avg Regression Loss 0.8895, Avg Classification Loss: 1.8329
+2026-11-05 17:34:35 - Epoch: 19, Step: 20/67, Avg Loss: 2.5364, Avg Regression Loss 0.8266, Avg Classification Loss: 1.7098
+2026-11-05 17:34:37 - Epoch: 19, Step: 30/67, Avg Loss: 2.4250, Avg Regression Loss 0.7598, Avg Classification Loss: 1.6653
+2026-11-05 17:34:38 - Epoch: 19, Step: 40/67, Avg Loss: 2.3014, Avg Regression Loss 0.7101, Avg Classification Loss: 1.5913
+2026-11-05 17:34:40 - Epoch: 19, Step: 50/67, Avg Loss: 2.3736, Avg Regression Loss 0.7161, Avg Classification Loss: 1.6574
+2026-11-05 17:34:42 - Epoch: 19, Step: 60/67, Avg Loss: 2.5083, Avg Regression Loss 0.7849, Avg Classification Loss: 1.7233
+2026-11-05 17:34:43 - Epoch: 19, Training Loss: 2.4285, Training Regression Loss 0.7676, Training Classification Loss: 1.6609
+2026-11-05 17:34:44 - Epoch: 19, Validation Loss: 2.3361, Validation Regression Loss 0.7116, Validation Classification Loss: 1.6245
+2026-11-05 17:34:52 - Epoch: 19, Average Precision Per-class:
+2026-11-05 17:34:52 -     bottle: 0.7291534316243647
+2026-11-05 17:34:52 -     chair: 0.7836478680373009
+2026-11-05 17:34:52 -     trash-bin: 0.8897504852904796
+2026-11-05 17:34:52 -     table: 0.7360473083730521
+2026-11-05 17:34:52 -     person: 0.7957773375320943
+2026-11-05 17:34:52 - Epoch: 19, Mean Average Precision (mAP):  0.7868752861714584
+2026-11-05 17:34:52 - Saved model models/run3\mb1-ssd-Epoch-19-Loss-2.33606980741024.pth
+2026-11-05 17:34:55 - Epoch: 20, Step: 10/67, Avg Loss: 2.7378, Avg Regression Loss 0.8754, Avg Classification Loss: 1.8625
+2026-11-05 17:34:57 - Epoch: 20, Step: 20/67, Avg Loss: 2.3798, Avg Regression Loss 0.7399, Avg Classification Loss: 1.6400
+2026-11-05 17:34:59 - Epoch: 20, Step: 30/67, Avg Loss: 2.5189, Avg Regression Loss 0.7863, Avg Classification Loss: 1.7326
+2026-11-05 17:35:00 - Epoch: 20, Step: 40/67, Avg Loss: 2.6017, Avg Regression Loss 0.8276, Avg Classification Loss: 1.7742
+2026-11-05 17:35:02 - Epoch: 20, Step: 50/67, Avg Loss: 2.4538, Avg Regression Loss 0.7693, Avg Classification Loss: 1.6846
+2026-11-05 17:35:04 - Epoch: 20, Step: 60/67, Avg Loss: 2.4401, Avg Regression Loss 0.7588, Avg Classification Loss: 1.6812
+2026-11-05 17:35:05 - Epoch: 20, Training Loss: 2.4589, Training Regression Loss 0.7742, Training Classification Loss: 1.6847
+2026-11-05 17:35:06 - Epoch: 20, Validation Loss: 2.3459, Validation Regression Loss 0.7059, Validation Classification Loss: 1.6400
+2026-11-05 17:35:14 - Epoch: 20, Average Precision Per-class:
+2026-11-05 17:35:14 -     bottle: 0.7475018001701438
+2026-11-05 17:35:14 -     chair: 0.7879724508311446
+2026-11-05 17:35:14 -     trash-bin: 0.8859602396536932
+2026-11-05 17:35:14 -     table: 0.7017991123239339
+2026-11-05 17:35:14 -     person: 0.802451269047847
+2026-11-05 17:35:14 - Epoch: 20, Mean Average Precision (mAP):  0.7851369744053526
+2026-11-05 17:35:14 - Saved model models/run3\mb1-ssd-Epoch-20-Loss-2.345919504761696.pth
+2026-11-05 17:35:17 - Epoch: 21, Step: 10/67, Avg Loss: 2.5529, Avg Regression Loss 0.8154, Avg Classification Loss: 1.7375
+2026-11-05 17:35:19 - Epoch: 21, Step: 20/67, Avg Loss: 2.4128, Avg Regression Loss 0.7989, Avg Classification Loss: 1.6139
+2026-11-05 17:35:20 - Epoch: 21, Step: 30/67, Avg Loss: 2.4547, Avg Regression Loss 0.7529, Avg Classification Loss: 1.7018
+2026-11-05 17:35:22 - Epoch: 21, Step: 40/67, Avg Loss: 2.5594, Avg Regression Loss 0.8474, Avg Classification Loss: 1.7120
+2026-11-05 17:35:24 - Epoch: 21, Step: 50/67, Avg Loss: 2.3603, Avg Regression Loss 0.7471, Avg Classification Loss: 1.6132
+2026-11-05 17:35:25 - Epoch: 21, Step: 60/67, Avg Loss: 2.3139, Avg Regression Loss 0.7374, Avg Classification Loss: 1.5765
+2026-11-05 17:35:26 - Epoch: 21, Training Loss: 2.4065, Training Regression Loss 0.7686, Training Classification Loss: 1.6379
+2026-11-05 17:35:27 - Epoch: 21, Validation Loss: 2.3489, Validation Regression Loss 0.7009, Validation Classification Loss: 1.6480
+2026-11-05 17:35:36 - Epoch: 21, Average Precision Per-class:
+2026-11-05 17:35:36 -     bottle: 0.7309097083527194
+2026-11-05 17:35:36 -     chair: 0.7684617607720466
+2026-11-05 17:35:36 -     trash-bin: 0.8937188178390526
+2026-11-05 17:35:36 -     table: 0.6993223198058048
+2026-11-05 17:35:36 -     person: 0.8092345197016233
+2026-11-05 17:35:36 - Epoch: 21, Mean Average Precision (mAP):  0.7803294252942494
+2026-11-05 17:35:36 - Saved model models/run3\mb1-ssd-Epoch-21-Loss-2.3489112108945847.pth
+2026-11-05 17:35:39 - Epoch: 22, Step: 10/67, Avg Loss: 2.5748, Avg Regression Loss 0.7920, Avg Classification Loss: 1.7828
+2026-11-05 17:35:41 - Epoch: 22, Step: 20/67, Avg Loss: 2.2631, Avg Regression Loss 0.6790, Avg Classification Loss: 1.5841
+2026-11-05 17:35:42 - Epoch: 22, Step: 30/67, Avg Loss: 2.4425, Avg Regression Loss 0.7769, Avg Classification Loss: 1.6656
+2026-11-05 17:35:44 - Epoch: 22, Step: 40/67, Avg Loss: 2.4015, Avg Regression Loss 0.7543, Avg Classification Loss: 1.6472
+2026-11-05 17:35:46 - Epoch: 22, Step: 50/67, Avg Loss: 2.4353, Avg Regression Loss 0.7903, Avg Classification Loss: 1.6450
+2026-11-05 17:35:47 - Epoch: 22, Step: 60/67, Avg Loss: 2.2904, Avg Regression Loss 0.7202, Avg Classification Loss: 1.5702
+2026-11-05 17:35:48 - Epoch: 22, Training Loss: 2.3607, Training Regression Loss 0.7417, Training Classification Loss: 1.6190
+2026-11-05 17:35:49 - Epoch: 22, Validation Loss: 2.4394, Validation Regression Loss 0.7253, Validation Classification Loss: 1.7141
+2026-11-05 17:35:58 - Epoch: 22, Average Precision Per-class:
+2026-11-05 17:35:58 -     bottle: 0.7345247689203646
+2026-11-05 17:35:58 -     chair: 0.7418785952446992
+2026-11-05 17:35:58 -     trash-bin: 0.8875348312443725
+2026-11-05 17:35:58 -     table: 0.7083221368168647
+2026-11-05 17:35:58 -     person: 0.759425758917076
+2026-11-05 17:35:58 - Epoch: 22, Mean Average Precision (mAP):  0.7663372182286754
+2026-11-05 17:35:58 - Saved model models/run3\mb1-ssd-Epoch-22-Loss-2.4393997490406036.pth
+2026-11-05 17:36:01 - Epoch: 23, Step: 10/67, Avg Loss: 2.6999, Avg Regression Loss 0.8584, Avg Classification Loss: 1.8414
+2026-11-05 17:36:03 - Epoch: 23, Step: 20/67, Avg Loss: 2.3969, Avg Regression Loss 0.7464, Avg Classification Loss: 1.6504
+2026-11-05 17:36:05 - Epoch: 23, Step: 30/67, Avg Loss: 2.3019, Avg Regression Loss 0.7019, Avg Classification Loss: 1.6000
+2026-11-05 17:36:06 - Epoch: 23, Step: 40/67, Avg Loss: 2.4658, Avg Regression Loss 0.7529, Avg Classification Loss: 1.7129
+2026-11-05 17:36:08 - Epoch: 23, Step: 50/67, Avg Loss: 2.3403, Avg Regression Loss 0.7432, Avg Classification Loss: 1.5971
+2026-11-05 17:36:10 - Epoch: 23, Step: 60/67, Avg Loss: 2.2721, Avg Regression Loss 0.7125, Avg Classification Loss: 1.5596
+2026-11-05 17:36:11 - Epoch: 23, Training Loss: 2.3684, Training Regression Loss 0.7370, Training Classification Loss: 1.6314
+2026-11-05 17:36:12 - Epoch: 23, Validation Loss: 2.2784, Validation Regression Loss 0.6738, Validation Classification Loss: 1.6046
+2026-11-05 17:36:20 - Epoch: 23, Average Precision Per-class:
+2026-11-05 17:36:20 -     bottle: 0.7476415543439789
+2026-11-05 17:36:20 -     chair: 0.802554171512029
+2026-11-05 17:36:20 -     trash-bin: 0.8921087097905147
+2026-11-05 17:36:20 -     table: 0.7268548206053334
+2026-11-05 17:36:20 -     person: 0.8021876287203544
+2026-11-05 17:36:20 - Epoch: 23, Mean Average Precision (mAP):  0.794269376994442
+2026-11-05 17:36:20 - Saved model models/run3\mb1-ssd-Epoch-23-Loss-2.278366819024086.pth
+2026-11-05 17:36:23 - Epoch: 24, Step: 10/67, Avg Loss: 2.4141, Avg Regression Loss 0.7336, Avg Classification Loss: 1.6806
+2026-11-05 17:36:25 - Epoch: 24, Step: 20/67, Avg Loss: 2.4127, Avg Regression Loss 0.7703, Avg Classification Loss: 1.6424
+2026-11-05 17:36:26 - Epoch: 24, Step: 30/67, Avg Loss: 2.4072, Avg Regression Loss 0.7760, Avg Classification Loss: 1.6311
+2026-11-05 17:36:28 - Epoch: 24, Step: 40/67, Avg Loss: 2.3084, Avg Regression Loss 0.7095, Avg Classification Loss: 1.5989
+2026-11-05 17:36:30 - Epoch: 24, Step: 50/67, Avg Loss: 2.3030, Avg Regression Loss 0.7323, Avg Classification Loss: 1.5706
+2026-11-05 17:36:32 - Epoch: 24, Step: 60/67, Avg Loss: 2.2665, Avg Regression Loss 0.6888, Avg Classification Loss: 1.5777
+2026-11-05 17:36:33 - Epoch: 24, Training Loss: 2.3185, Training Regression Loss 0.7254, Training Classification Loss: 1.5930
+2026-11-05 17:36:34 - Epoch: 24, Validation Loss: 2.3568, Validation Regression Loss 0.6904, Validation Classification Loss: 1.6664
+2026-11-05 17:36:42 - Epoch: 24, Average Precision Per-class:
+2026-11-05 17:36:42 -     bottle: 0.7366319400386022
+2026-11-05 17:36:42 -     chair: 0.7703413760697156
+2026-11-05 17:36:42 -     trash-bin: 0.889233851739947
+2026-11-05 17:36:42 -     table: 0.6951727334626049
+2026-11-05 17:36:42 -     person: 0.7901296488548888
+2026-11-05 17:36:42 - Epoch: 24, Mean Average Precision (mAP):  0.7763019100331516
+2026-11-05 17:36:43 - Saved model models/run3\mb1-ssd-Epoch-24-Loss-2.356799304485321.pth
+2026-11-05 17:36:45 - Epoch: 25, Step: 10/67, Avg Loss: 2.4925, Avg Regression Loss 0.7848, Avg Classification Loss: 1.7076
+2026-11-05 17:36:47 - Epoch: 25, Step: 20/67, Avg Loss: 2.2913, Avg Regression Loss 0.7076, Avg Classification Loss: 1.5838
+2026-11-05 17:36:49 - Epoch: 25, Step: 30/67, Avg Loss: 2.5058, Avg Regression Loss 0.8343, Avg Classification Loss: 1.6715
+2026-11-05 17:36:51 - Epoch: 25, Step: 40/67, Avg Loss: 2.3178, Avg Regression Loss 0.7324, Avg Classification Loss: 1.5854
+2026-11-05 17:36:52 - Epoch: 25, Step: 50/67, Avg Loss: 2.3944, Avg Regression Loss 0.7468, Avg Classification Loss: 1.6476
+2026-11-05 17:36:54 - Epoch: 25, Step: 60/67, Avg Loss: 2.3221, Avg Regression Loss 0.7219, Avg Classification Loss: 1.6002
+2026-11-05 17:36:55 - Epoch: 25, Training Loss: 2.3401, Training Regression Loss 0.7369, Training Classification Loss: 1.6032
+2026-11-05 17:36:56 - Epoch: 25, Validation Loss: 2.2995, Validation Regression Loss 0.6780, Validation Classification Loss: 1.6215
+2026-11-05 17:37:04 - Epoch: 25, Average Precision Per-class:
+2026-11-05 17:37:04 -     bottle: 0.7187081407809257
+2026-11-05 17:37:04 -     chair: 0.7955579984441565
+2026-11-05 17:37:04 -     trash-bin: 0.890790905077488
+2026-11-05 17:37:04 -     table: 0.7422821691176039
+2026-11-05 17:37:04 -     person: 0.7991759222524699
+2026-11-05 17:37:04 - Epoch: 25, Mean Average Precision (mAP):  0.7893030271345288
+2026-11-05 17:37:04 - Saved model models/run3\mb1-ssd-Epoch-25-Loss-2.2994873970746994.pth
+2026-11-05 17:37:07 - Epoch: 26, Step: 10/67, Avg Loss: 2.5447, Avg Regression Loss 0.7955, Avg Classification Loss: 1.7493
+2026-11-05 17:37:09 - Epoch: 26, Step: 20/67, Avg Loss: 2.4484, Avg Regression Loss 0.7630, Avg Classification Loss: 1.6854
+2026-11-05 17:37:11 - Epoch: 26, Step: 30/67, Avg Loss: 2.2518, Avg Regression Loss 0.6928, Avg Classification Loss: 1.5589
+2026-11-05 17:37:12 - Epoch: 26, Step: 40/67, Avg Loss: 2.3013, Avg Regression Loss 0.7098, Avg Classification Loss: 1.5916
+2026-11-05 17:37:14 - Epoch: 26, Step: 50/67, Avg Loss: 2.4146, Avg Regression Loss 0.7799, Avg Classification Loss: 1.6347
+2026-11-05 17:37:16 - Epoch: 26, Step: 60/67, Avg Loss: 2.3799, Avg Regression Loss 0.7410, Avg Classification Loss: 1.6389
+2026-11-05 17:37:17 - Epoch: 26, Training Loss: 2.3466, Training Regression Loss 0.7335, Training Classification Loss: 1.6131
+2026-11-05 17:37:18 - Epoch: 26, Validation Loss: 2.2696, Validation Regression Loss 0.6727, Validation Classification Loss: 1.5969
+2026-11-05 17:37:26 - Epoch: 26, Average Precision Per-class:
+2026-11-05 17:37:26 -     bottle: 0.7411036356944137
+2026-11-05 17:37:26 -     chair: 0.7634485403804111
+2026-11-05 17:37:26 -     trash-bin: 0.8934792268649178
+2026-11-05 17:37:26 -     table: 0.7166145869414511
+2026-11-05 17:37:26 -     person: 0.8384901317857208
+2026-11-05 17:37:26 - Epoch: 26, Mean Average Precision (mAP):  0.7906272243333828
+2026-11-05 17:37:26 - Saved model models/run3\mb1-ssd-Epoch-26-Loss-2.2696334421634674.pth
+2026-11-05 17:37:29 - Epoch: 27, Step: 10/67, Avg Loss: 2.6477, Avg Regression Loss 0.8051, Avg Classification Loss: 1.8426
+2026-11-05 17:37:31 - Epoch: 27, Step: 20/67, Avg Loss: 2.3544, Avg Regression Loss 0.7565, Avg Classification Loss: 1.5979
+2026-11-05 17:37:32 - Epoch: 27, Step: 30/67, Avg Loss: 2.3012, Avg Regression Loss 0.7169, Avg Classification Loss: 1.5844
+2026-11-05 17:37:34 - Epoch: 27, Step: 40/67, Avg Loss: 2.3780, Avg Regression Loss 0.7833, Avg Classification Loss: 1.5947
+2026-11-05 17:37:36 - Epoch: 27, Step: 50/67, Avg Loss: 2.2483, Avg Regression Loss 0.6893, Avg Classification Loss: 1.5590
+2026-11-05 17:37:37 - Epoch: 27, Step: 60/67, Avg Loss: 2.4184, Avg Regression Loss 0.7859, Avg Classification Loss: 1.6325
+2026-11-05 17:37:38 - Epoch: 27, Training Loss: 2.3590, Training Regression Loss 0.7454, Training Classification Loss: 1.6135
+2026-11-05 17:37:39 - Epoch: 27, Validation Loss: 2.2880, Validation Regression Loss 0.6708, Validation Classification Loss: 1.6172
+2026-11-05 17:37:47 - Epoch: 27, Average Precision Per-class:
+2026-11-05 17:37:47 -     bottle: 0.7336407764288113
+2026-11-05 17:37:47 -     chair: 0.8055428584044269
+2026-11-05 17:37:47 -     trash-bin: 0.8912213177106396
+2026-11-05 17:37:47 -     table: 0.7395831326797591
+2026-11-05 17:37:47 -     person: 0.8200138179714462
+2026-11-05 17:37:47 - Epoch: 27, Mean Average Precision (mAP):  0.7980003806390167
+2026-11-05 17:37:47 - Saved model models/run3\mb1-ssd-Epoch-27-Loss-2.2880047261714935.pth
+2026-11-05 17:37:50 - Epoch: 28, Step: 10/67, Avg Loss: 2.4700, Avg Regression Loss 0.7678, Avg Classification Loss: 1.7022
+2026-11-05 17:37:52 - Epoch: 28, Step: 20/67, Avg Loss: 2.2181, Avg Regression Loss 0.6623, Avg Classification Loss: 1.5558
+2026-11-05 17:37:53 - Epoch: 28, Step: 30/67, Avg Loss: 2.3970, Avg Regression Loss 0.7386, Avg Classification Loss: 1.6584
+2026-11-05 17:37:55 - Epoch: 28, Step: 40/67, Avg Loss: 2.2098, Avg Regression Loss 0.6776, Avg Classification Loss: 1.5322
+2026-11-05 17:37:57 - Epoch: 28, Step: 50/67, Avg Loss: 2.1875, Avg Regression Loss 0.6812, Avg Classification Loss: 1.5063
+2026-11-05 17:37:58 - Epoch: 28, Step: 60/67, Avg Loss: 2.4208, Avg Regression Loss 0.7784, Avg Classification Loss: 1.6424
+2026-11-05 17:37:59 - Epoch: 28, Training Loss: 2.2812, Training Regression Loss 0.7069, Training Classification Loss: 1.5743
+2026-11-05 17:38:00 - Epoch: 28, Validation Loss: 2.2529, Validation Regression Loss 0.6565, Validation Classification Loss: 1.5964
+2026-11-05 17:38:08 - Epoch: 28, Average Precision Per-class:
+2026-11-05 17:38:08 -     bottle: 0.7599145227264994
+2026-11-05 17:38:08 -     chair: 0.8051456383202448
+2026-11-05 17:38:08 -     trash-bin: 0.8892999376052629
+2026-11-05 17:38:08 -     table: 0.7286290605826127
+2026-11-05 17:38:08 -     person: 0.8045980400422625
+2026-11-05 17:38:08 - Epoch: 28, Mean Average Precision (mAP):  0.7975174398553765
+2026-11-05 17:38:08 - Saved model models/run3\mb1-ssd-Epoch-28-Loss-2.252923235297203.pth
+2026-11-05 17:38:11 - Epoch: 29, Step: 10/67, Avg Loss: 2.4881, Avg Regression Loss 0.7492, Avg Classification Loss: 1.7389
+2026-11-05 17:38:13 - Epoch: 29, Step: 20/67, Avg Loss: 2.4290, Avg Regression Loss 0.7720, Avg Classification Loss: 1.6570
+2026-11-05 17:38:15 - Epoch: 29, Step: 30/67, Avg Loss: 2.1372, Avg Regression Loss 0.6584, Avg Classification Loss: 1.4788
+2026-11-05 17:38:16 - Epoch: 29, Step: 40/67, Avg Loss: 2.3739, Avg Regression Loss 0.7713, Avg Classification Loss: 1.6026
+2026-11-05 17:38:18 - Epoch: 29, Step: 50/67, Avg Loss: 2.2705, Avg Regression Loss 0.6955, Avg Classification Loss: 1.5750
+2026-11-05 17:38:20 - Epoch: 29, Step: 60/67, Avg Loss: 2.1203, Avg Regression Loss 0.6234, Avg Classification Loss: 1.4970
+2026-11-05 17:38:21 - Epoch: 29, Training Loss: 2.2552, Training Regression Loss 0.6966, Training Classification Loss: 1.5586
+2026-11-05 17:38:22 - Epoch: 29, Validation Loss: 2.2255, Validation Regression Loss 0.6648, Validation Classification Loss: 1.5607
+2026-11-05 17:38:29 - Epoch: 29, Average Precision Per-class:
+2026-11-05 17:38:29 -     bottle: 0.7551146197157479
+2026-11-05 17:38:29 -     chair: 0.7916011157572773
+2026-11-05 17:38:29 -     trash-bin: 0.8931938238142912
+2026-11-05 17:38:29 -     table: 0.7128584528691693
+2026-11-05 17:38:29 -     person: 0.8122947601101136
+2026-11-05 17:38:29 - Epoch: 29, Mean Average Precision (mAP):  0.7930125544533199
+2026-11-05 17:38:29 - Saved model models/run3\mb1-ssd-Epoch-29-Loss-2.2254900485277176.pth
+2026-11-05 17:38:32 - Epoch: 30, Step: 10/67, Avg Loss: 2.4203, Avg Regression Loss 0.7141, Avg Classification Loss: 1.7061
+2026-11-05 17:38:34 - Epoch: 30, Step: 20/67, Avg Loss: 2.2057, Avg Regression Loss 0.6693, Avg Classification Loss: 1.5364
+2026-11-05 17:38:36 - Epoch: 30, Step: 30/67, Avg Loss: 2.2587, Avg Regression Loss 0.6830, Avg Classification Loss: 1.5757
+2026-11-05 17:38:37 - Epoch: 30, Step: 40/67, Avg Loss: 2.2338, Avg Regression Loss 0.7042, Avg Classification Loss: 1.5296
+2026-11-05 17:38:39 - Epoch: 30, Step: 50/67, Avg Loss: 2.1706, Avg Regression Loss 0.6459, Avg Classification Loss: 1.5247
+2026-11-05 17:38:41 - Epoch: 30, Step: 60/67, Avg Loss: 2.2867, Avg Regression Loss 0.7056, Avg Classification Loss: 1.5811
+2026-11-05 17:38:42 - Epoch: 30, Training Loss: 2.2239, Training Regression Loss 0.6757, Training Classification Loss: 1.5482
+2026-11-05 17:38:43 - Epoch: 30, Validation Loss: 2.2232, Validation Regression Loss 0.6590, Validation Classification Loss: 1.5642
+2026-11-05 17:38:50 - Epoch: 30, Average Precision Per-class:
+2026-11-05 17:38:50 -     bottle: 0.7573030086809175
+2026-11-05 17:38:50 -     chair: 0.7976629215578486
+2026-11-05 17:38:50 -     trash-bin: 0.8965153941598216
+2026-11-05 17:38:50 -     table: 0.7260637106149188
+2026-11-05 17:38:50 -     person: 0.8004511788146194
+2026-11-05 17:38:50 - Epoch: 30, Mean Average Precision (mAP):  0.7955992427656252
+2026-11-05 17:38:50 - Saved model models/run3\mb1-ssd-Epoch-30-Loss-2.2232053875923157.pth
+2026-11-05 17:38:53 - Epoch: 31, Step: 10/67, Avg Loss: 2.4415, Avg Regression Loss 0.7668, Avg Classification Loss: 1.6747
+2026-11-05 17:38:55 - Epoch: 31, Step: 20/67, Avg Loss: 2.3764, Avg Regression Loss 0.7522, Avg Classification Loss: 1.6242
+2026-11-05 17:38:57 - Epoch: 31, Step: 30/67, Avg Loss: 2.3033, Avg Regression Loss 0.7159, Avg Classification Loss: 1.5873
+2026-11-05 17:38:59 - Epoch: 31, Step: 40/67, Avg Loss: 2.1581, Avg Regression Loss 0.6440, Avg Classification Loss: 1.5141
+2026-11-05 17:39:00 - Epoch: 31, Step: 50/67, Avg Loss: 2.1989, Avg Regression Loss 0.6413, Avg Classification Loss: 1.5577
+2026-11-05 17:39:02 - Epoch: 31, Step: 60/67, Avg Loss: 2.2863, Avg Regression Loss 0.7053, Avg Classification Loss: 1.5811
+2026-11-05 17:39:03 - Epoch: 31, Training Loss: 2.2521, Training Regression Loss 0.6922, Training Classification Loss: 1.5598
+2026-11-05 17:39:04 - Epoch: 31, Validation Loss: 2.2355, Validation Regression Loss 0.6522, Validation Classification Loss: 1.5833
+2026-11-05 17:39:12 - Epoch: 31, Average Precision Per-class:
+2026-11-05 17:39:12 -     bottle: 0.7462314604467771
+2026-11-05 17:39:12 -     chair: 0.7954886374709933
+2026-11-05 17:39:12 -     trash-bin: 0.8945763209341063
+2026-11-05 17:39:12 -     table: 0.7270038042765314
+2026-11-05 17:39:12 -     person: 0.8149133174797536
+2026-11-05 17:39:12 - Epoch: 31, Mean Average Precision (mAP):  0.7956427081216324
+2026-11-05 17:39:12 - Saved model models/run3\mb1-ssd-Epoch-31-Loss-2.2355044931173325.pth
+2026-11-05 17:39:15 - Epoch: 32, Step: 10/67, Avg Loss: 2.4310, Avg Regression Loss 0.7116, Avg Classification Loss: 1.7194
+2026-11-05 17:39:16 - Epoch: 32, Step: 20/67, Avg Loss: 2.2399, Avg Regression Loss 0.6829, Avg Classification Loss: 1.5570
+2026-11-05 17:39:18 - Epoch: 32, Step: 30/67, Avg Loss: 2.1799, Avg Regression Loss 0.6605, Avg Classification Loss: 1.5194
+2026-11-05 17:39:20 - Epoch: 32, Step: 40/67, Avg Loss: 2.3365, Avg Regression Loss 0.6935, Avg Classification Loss: 1.6430
+2026-11-05 17:39:22 - Epoch: 32, Step: 50/67, Avg Loss: 2.2932, Avg Regression Loss 0.7164, Avg Classification Loss: 1.5768
+2026-11-05 17:39:23 - Epoch: 32, Step: 60/67, Avg Loss: 2.1270, Avg Regression Loss 0.6594, Avg Classification Loss: 1.4676
+2026-11-05 17:39:24 - Epoch: 32, Training Loss: 2.2467, Training Regression Loss 0.6862, Training Classification Loss: 1.5605
+2026-11-05 17:39:25 - Epoch: 32, Validation Loss: 2.2200, Validation Regression Loss 0.6520, Validation Classification Loss: 1.5680
+2026-11-05 17:39:33 - Epoch: 32, Average Precision Per-class:
+2026-11-05 17:39:33 -     bottle: 0.7414814915354154
+2026-11-05 17:39:33 -     chair: 0.793219313498241
+2026-11-05 17:39:33 -     trash-bin: 0.8921050793559494
+2026-11-05 17:39:33 -     table: 0.7304420973873754
+2026-11-05 17:39:33 -     person: 0.8337172035142821
+2026-11-05 17:39:33 - Epoch: 32, Mean Average Precision (mAP):  0.7981930370582526
+2026-11-05 17:39:33 - Saved model models/run3\mb1-ssd-Epoch-32-Loss-2.2200084030628204.pth
+2026-11-05 17:39:36 - Epoch: 33, Step: 10/67, Avg Loss: 2.3151, Avg Regression Loss 0.6700, Avg Classification Loss: 1.6451
+2026-11-05 17:39:37 - Epoch: 33, Step: 20/67, Avg Loss: 2.1351, Avg Regression Loss 0.6241, Avg Classification Loss: 1.5111
+2026-11-05 17:39:39 - Epoch: 33, Step: 30/67, Avg Loss: 2.3414, Avg Regression Loss 0.7365, Avg Classification Loss: 1.6049
+2026-11-05 17:39:41 - Epoch: 33, Step: 40/67, Avg Loss: 2.1816, Avg Regression Loss 0.6366, Avg Classification Loss: 1.5450
+2026-11-05 17:39:43 - Epoch: 33, Step: 50/67, Avg Loss: 2.2388, Avg Regression Loss 0.7027, Avg Classification Loss: 1.5360
+2026-11-05 17:39:44 - Epoch: 33, Step: 60/67, Avg Loss: 2.1812, Avg Regression Loss 0.6516, Avg Classification Loss: 1.5297
+2026-11-05 17:39:45 - Epoch: 33, Training Loss: 2.1997, Training Regression Loss 0.6617, Training Classification Loss: 1.5380
+2026-11-05 17:39:46 - Epoch: 33, Validation Loss: 2.2161, Validation Regression Loss 0.6436, Validation Classification Loss: 1.5726
+2026-11-05 17:39:53 - Epoch: 33, Average Precision Per-class:
+2026-11-05 17:39:53 -     bottle: 0.7536085704702793
+2026-11-05 17:39:53 -     chair: 0.8038495292447136
+2026-11-05 17:39:53 -     trash-bin: 0.8897836386175335
+2026-11-05 17:39:53 -     table: 0.6901950250148797
+2026-11-05 17:39:53 -     person: 0.8219994416024279
+2026-11-05 17:39:53 - Epoch: 33, Mean Average Precision (mAP):  0.7918872409899669
+2026-11-05 17:39:53 - Saved model models/run3\mb1-ssd-Epoch-33-Loss-2.2161199748516083.pth
+2026-11-05 17:39:56 - Epoch: 34, Step: 10/67, Avg Loss: 2.3928, Avg Regression Loss 0.7225, Avg Classification Loss: 1.6703
+2026-11-05 17:39:58 - Epoch: 34, Step: 20/67, Avg Loss: 2.1922, Avg Regression Loss 0.6969, Avg Classification Loss: 1.4953
+2026-11-05 17:40:00 - Epoch: 34, Step: 30/67, Avg Loss: 2.2100, Avg Regression Loss 0.6594, Avg Classification Loss: 1.5505
+2026-11-05 17:40:01 - Epoch: 34, Step: 40/67, Avg Loss: 2.2107, Avg Regression Loss 0.6477, Avg Classification Loss: 1.5629
+2026-11-05 17:40:03 - Epoch: 34, Step: 50/67, Avg Loss: 2.1306, Avg Regression Loss 0.6615, Avg Classification Loss: 1.4691
+2026-11-05 17:40:05 - Epoch: 34, Step: 60/67, Avg Loss: 2.2264, Avg Regression Loss 0.6800, Avg Classification Loss: 1.5464
+2026-11-05 17:40:06 - Epoch: 34, Training Loss: 2.1807, Training Regression Loss 0.6679, Training Classification Loss: 1.5128
+2026-11-05 17:40:07 - Epoch: 34, Validation Loss: 2.2002, Validation Regression Loss 0.6443, Validation Classification Loss: 1.5558
+2026-11-05 17:40:14 - Epoch: 34, Average Precision Per-class:
+2026-11-05 17:40:14 -     bottle: 0.7546817921519897
+2026-11-05 17:40:14 -     chair: 0.8022360367863515
+2026-11-05 17:40:14 -     trash-bin: 0.8919302172353869
+2026-11-05 17:40:14 -     table: 0.7288287956722195
+2026-11-05 17:40:14 -     person: 0.813784086337664
+2026-11-05 17:40:14 - Epoch: 34, Mean Average Precision (mAP):  0.7982921856367223
+2026-11-05 17:40:14 - Saved model models/run3\mb1-ssd-Epoch-34-Loss-2.2001565396785736.pth
+2026-11-05 17:40:17 - Epoch: 35, Step: 10/67, Avg Loss: 2.4499, Avg Regression Loss 0.7641, Avg Classification Loss: 1.6858
+2026-11-05 17:40:19 - Epoch: 35, Step: 20/67, Avg Loss: 2.2178, Avg Regression Loss 0.6769, Avg Classification Loss: 1.5409
+2026-11-05 17:40:21 - Epoch: 35, Step: 30/67, Avg Loss: 2.4192, Avg Regression Loss 0.7505, Avg Classification Loss: 1.6686
+2026-11-05 17:40:22 - Epoch: 35, Step: 40/67, Avg Loss: 2.1030, Avg Regression Loss 0.6344, Avg Classification Loss: 1.4686
+2026-11-05 17:40:24 - Epoch: 35, Step: 50/67, Avg Loss: 2.1543, Avg Regression Loss 0.6713, Avg Classification Loss: 1.4830
+2026-11-05 17:40:26 - Epoch: 35, Step: 60/67, Avg Loss: 2.0491, Avg Regression Loss 0.5967, Avg Classification Loss: 1.4524
+2026-11-05 17:40:27 - Epoch: 35, Training Loss: 2.2068, Training Regression Loss 0.6745, Training Classification Loss: 1.5323
+2026-11-05 17:40:28 - Epoch: 35, Validation Loss: 2.1905, Validation Regression Loss 0.6385, Validation Classification Loss: 1.5520
+2026-11-05 17:40:35 - Epoch: 35, Average Precision Per-class:
+2026-11-05 17:40:35 -     bottle: 0.7605252461265317
+2026-11-05 17:40:35 -     chair: 0.7922792302413849
+2026-11-05 17:40:35 -     trash-bin: 0.8898400575336594
+2026-11-05 17:40:35 -     table: 0.7220771691423411
+2026-11-05 17:40:35 -     person: 0.8157831572778064
+2026-11-05 17:40:35 - Epoch: 35, Mean Average Precision (mAP):  0.7961009720643447
+2026-11-05 17:40:35 - Saved model models/run3\mb1-ssd-Epoch-35-Loss-2.190492659807205.pth
+2026-11-05 17:40:38 - Epoch: 36, Step: 10/67, Avg Loss: 2.4087, Avg Regression Loss 0.7062, Avg Classification Loss: 1.7025
+2026-11-05 17:40:40 - Epoch: 36, Step: 20/67, Avg Loss: 2.2666, Avg Regression Loss 0.6855, Avg Classification Loss: 1.5811
+2026-11-05 17:40:41 - Epoch: 36, Step: 30/67, Avg Loss: 2.2009, Avg Regression Loss 0.6859, Avg Classification Loss: 1.5150
+2026-11-05 17:40:43 - Epoch: 36, Step: 40/67, Avg Loss: 2.1908, Avg Regression Loss 0.6628, Avg Classification Loss: 1.5280
+2026-11-05 17:40:45 - Epoch: 36, Step: 50/67, Avg Loss: 2.0471, Avg Regression Loss 0.5938, Avg Classification Loss: 1.4534
+2026-11-05 17:40:46 - Epoch: 36, Step: 60/67, Avg Loss: 2.0278, Avg Regression Loss 0.5808, Avg Classification Loss: 1.4470
+2026-11-05 17:40:47 - Epoch: 36, Training Loss: 2.1694, Training Regression Loss 0.6476, Training Classification Loss: 1.5218
+2026-11-05 17:40:48 - Epoch: 36, Validation Loss: 2.1769, Validation Regression Loss 0.6376, Validation Classification Loss: 1.5393
+2026-11-05 17:40:56 - Epoch: 36, Average Precision Per-class:
+2026-11-05 17:40:56 -     bottle: 0.7630621574927597
+2026-11-05 17:40:56 -     chair: 0.7959311389333279
+2026-11-05 17:40:56 -     trash-bin: 0.8903343027314273
+2026-11-05 17:40:56 -     table: 0.7361468142395977
+2026-11-05 17:40:56 -     person: 0.8384062394851826
+2026-11-05 17:40:56 - Epoch: 36, Mean Average Precision (mAP):  0.804776130576459
+2026-11-05 17:40:56 - Saved model models/run3\mb1-ssd-Epoch-36-Loss-2.1768894642591476.pth
+2026-11-05 17:40:59 - Epoch: 37, Step: 10/67, Avg Loss: 2.3360, Avg Regression Loss 0.7152, Avg Classification Loss: 1.6208
+2026-11-05 17:41:00 - Epoch: 37, Step: 20/67, Avg Loss: 2.2413, Avg Regression Loss 0.6927, Avg Classification Loss: 1.5486
+2026-11-05 17:41:02 - Epoch: 37, Step: 30/67, Avg Loss: 2.1489, Avg Regression Loss 0.6496, Avg Classification Loss: 1.4993
+2026-11-05 17:41:04 - Epoch: 37, Step: 40/67, Avg Loss: 2.2799, Avg Regression Loss 0.7400, Avg Classification Loss: 1.5399
+2026-11-05 17:41:06 - Epoch: 37, Step: 50/67, Avg Loss: 2.1605, Avg Regression Loss 0.6333, Avg Classification Loss: 1.5273
+2026-11-05 17:41:07 - Epoch: 37, Step: 60/67, Avg Loss: 2.2033, Avg Regression Loss 0.6767, Avg Classification Loss: 1.5267
+2026-11-05 17:41:08 - Epoch: 37, Training Loss: 2.1877, Training Regression Loss 0.6765, Training Classification Loss: 1.5112
+2026-11-05 17:41:09 - Epoch: 37, Validation Loss: 2.1836, Validation Regression Loss 0.6344, Validation Classification Loss: 1.5492
+2026-11-05 17:41:16 - Epoch: 37, Average Precision Per-class:
+2026-11-05 17:41:16 -     bottle: 0.7642976926374931
+2026-11-05 17:41:16 -     chair: 0.8050926363073017
+2026-11-05 17:41:16 -     trash-bin: 0.8905180293808115
+2026-11-05 17:41:16 -     table: 0.7222078181624987
+2026-11-05 17:41:16 -     person: 0.8243592515519194
+2026-11-05 17:41:16 - Epoch: 37, Mean Average Precision (mAP):  0.8012950856080048
+2026-11-05 17:41:17 - Saved model models/run3\mb1-ssd-Epoch-37-Loss-2.1835584938526154.pth
+2026-11-05 17:41:19 - Epoch: 38, Step: 10/67, Avg Loss: 2.3209, Avg Regression Loss 0.7005, Avg Classification Loss: 1.6205
+2026-11-05 17:41:21 - Epoch: 38, Step: 20/67, Avg Loss: 2.2191, Avg Regression Loss 0.6726, Avg Classification Loss: 1.5465
+2026-11-05 17:41:23 - Epoch: 38, Step: 30/67, Avg Loss: 2.1493, Avg Regression Loss 0.6555, Avg Classification Loss: 1.4938
+2026-11-05 17:41:25 - Epoch: 38, Step: 40/67, Avg Loss: 2.1680, Avg Regression Loss 0.6744, Avg Classification Loss: 1.4935
+2026-11-05 17:41:26 - Epoch: 38, Step: 50/67, Avg Loss: 2.1410, Avg Regression Loss 0.6643, Avg Classification Loss: 1.4767
+2026-11-05 17:41:28 - Epoch: 38, Step: 60/67, Avg Loss: 2.2166, Avg Regression Loss 0.6497, Avg Classification Loss: 1.5669
+2026-11-05 17:41:29 - Epoch: 38, Training Loss: 2.1826, Training Regression Loss 0.6636, Training Classification Loss: 1.5191
+2026-11-05 17:41:30 - Epoch: 38, Validation Loss: 2.1714, Validation Regression Loss 0.6293, Validation Classification Loss: 1.5421
+2026-11-05 17:41:37 - Epoch: 38, Average Precision Per-class:
+2026-11-05 17:41:37 -     bottle: 0.7511802863497798
+2026-11-05 17:41:37 -     chair: 0.7950151102278002
+2026-11-05 17:41:37 -     trash-bin: 0.8890314354236578
+2026-11-05 17:41:37 -     table: 0.7637178658743411
+2026-11-05 17:41:37 -     person: 0.8300724543813744
+2026-11-05 17:41:37 - Epoch: 38, Mean Average Precision (mAP):  0.8058034304513907
+2026-11-05 17:41:37 - Saved model models/run3\mb1-ssd-Epoch-38-Loss-2.171418622136116.pth
+2026-11-05 17:41:40 - Epoch: 39, Step: 10/67, Avg Loss: 2.3925, Avg Regression Loss 0.7244, Avg Classification Loss: 1.6681
+2026-11-05 17:41:42 - Epoch: 39, Step: 20/67, Avg Loss: 2.2494, Avg Regression Loss 0.6667, Avg Classification Loss: 1.5827
+2026-11-05 17:41:43 - Epoch: 39, Step: 30/67, Avg Loss: 2.1438, Avg Regression Loss 0.6374, Avg Classification Loss: 1.5063
+2026-11-05 17:41:45 - Epoch: 39, Step: 40/67, Avg Loss: 2.2110, Avg Regression Loss 0.6948, Avg Classification Loss: 1.5162
+2026-11-05 17:41:47 - Epoch: 39, Step: 50/67, Avg Loss: 2.1299, Avg Regression Loss 0.6342, Avg Classification Loss: 1.4956
+2026-11-05 17:41:48 - Epoch: 39, Step: 60/67, Avg Loss: 2.3350, Avg Regression Loss 0.7432, Avg Classification Loss: 1.5918
+2026-11-05 17:41:49 - Epoch: 39, Training Loss: 2.2031, Training Regression Loss 0.6709, Training Classification Loss: 1.5322
+2026-11-05 17:41:50 - Epoch: 39, Validation Loss: 2.1696, Validation Regression Loss 0.6390, Validation Classification Loss: 1.5306
+2026-11-05 17:41:58 - Epoch: 39, Average Precision Per-class:
+2026-11-05 17:41:58 -     bottle: 0.7632726139335526
+2026-11-05 17:41:58 -     chair: 0.7983972700820526
+2026-11-05 17:41:58 -     trash-bin: 0.8935406934578245
+2026-11-05 17:41:58 -     table: 0.7493684018990234
+2026-11-05 17:41:58 -     person: 0.8188853603858068
+2026-11-05 17:41:58 - Epoch: 39, Mean Average Precision (mAP):  0.8046928679516521
+2026-11-05 17:41:58 - Saved model models/run3\mb1-ssd-Epoch-39-Loss-2.169591471552849.pth
+2026-11-05 17:42:01 - Epoch: 40, Step: 10/67, Avg Loss: 2.5018, Avg Regression Loss 0.7630, Avg Classification Loss: 1.7388
+2026-11-05 17:42:02 - Epoch: 40, Step: 20/67, Avg Loss: 2.1835, Avg Regression Loss 0.6592, Avg Classification Loss: 1.5243
+2026-11-05 17:42:04 - Epoch: 40, Step: 30/67, Avg Loss: 2.1258, Avg Regression Loss 0.6330, Avg Classification Loss: 1.4928
+2026-11-05 17:42:06 - Epoch: 40, Step: 40/67, Avg Loss: 2.0992, Avg Regression Loss 0.6350, Avg Classification Loss: 1.4642
+2026-11-05 17:42:07 - Epoch: 40, Step: 50/67, Avg Loss: 2.1477, Avg Regression Loss 0.6639, Avg Classification Loss: 1.4838
+2026-11-05 17:42:09 - Epoch: 40, Step: 60/67, Avg Loss: 2.0090, Avg Regression Loss 0.5893, Avg Classification Loss: 1.4197
+2026-11-05 17:42:10 - Epoch: 40, Training Loss: 2.1521, Training Regression Loss 0.6518, Training Classification Loss: 1.5002
+2026-11-05 17:42:11 - Epoch: 40, Validation Loss: 2.1784, Validation Regression Loss 0.6343, Validation Classification Loss: 1.5441
+2026-11-05 17:42:18 - Epoch: 40, Average Precision Per-class:
+2026-11-05 17:42:18 -     bottle: 0.7502235269803068
+2026-11-05 17:42:18 -     chair: 0.8052091797287346
+2026-11-05 17:42:18 -     trash-bin: 0.8905666357452073
+2026-11-05 17:42:18 -     table: 0.7286899725029313
+2026-11-05 17:42:18 -     person: 0.8295887165824207
+2026-11-05 17:42:18 - Epoch: 40, Mean Average Precision (mAP):  0.8008556063079201
+2026-11-05 17:42:18 - Saved model models/run3\mb1-ssd-Epoch-40-Loss-2.17842173576355.pth
+2026-11-05 17:42:21 - Epoch: 41, Step: 10/67, Avg Loss: 2.5419, Avg Regression Loss 0.7704, Avg Classification Loss: 1.7715
+2026-11-05 17:42:23 - Epoch: 41, Step: 20/67, Avg Loss: 2.0395, Avg Regression Loss 0.6132, Avg Classification Loss: 1.4264
+2026-11-05 17:42:25 - Epoch: 41, Step: 30/67, Avg Loss: 2.1880, Avg Regression Loss 0.6854, Avg Classification Loss: 1.5026
+2026-11-05 17:42:26 - Epoch: 41, Step: 40/67, Avg Loss: 2.3336, Avg Regression Loss 0.7575, Avg Classification Loss: 1.5761
+2026-11-05 17:42:28 - Epoch: 41, Step: 50/67, Avg Loss: 2.0397, Avg Regression Loss 0.6089, Avg Classification Loss: 1.4308
+2026-11-05 17:42:30 - Epoch: 41, Step: 60/67, Avg Loss: 2.0554, Avg Regression Loss 0.6059, Avg Classification Loss: 1.4494
+2026-11-05 17:42:31 - Epoch: 41, Training Loss: 2.1856, Training Regression Loss 0.6737, Training Classification Loss: 1.5119
+2026-11-05 17:42:32 - Epoch: 41, Validation Loss: 2.1565, Validation Regression Loss 0.6272, Validation Classification Loss: 1.5293
+2026-11-05 17:42:39 - Epoch: 41, Average Precision Per-class:
+2026-11-05 17:42:39 -     bottle: 0.7613900079601232
+2026-11-05 17:42:39 -     chair: 0.8099082476962423
+2026-11-05 17:42:39 -     trash-bin: 0.8940543931770928
+2026-11-05 17:42:39 -     table: 0.7415876295421749
+2026-11-05 17:42:39 -     person: 0.8244019948747358
+2026-11-05 17:42:39 - Epoch: 41, Mean Average Precision (mAP):  0.8062684546500737
+2026-11-05 17:42:39 - Saved model models/run3\mb1-ssd-Epoch-41-Loss-2.1565086990594864.pth
+2026-11-05 17:42:42 - Epoch: 42, Step: 10/67, Avg Loss: 2.4177, Avg Regression Loss 0.7706, Avg Classification Loss: 1.6471
+2026-11-05 17:42:44 - Epoch: 42, Step: 20/67, Avg Loss: 2.0418, Avg Regression Loss 0.6150, Avg Classification Loss: 1.4269
+2026-11-05 17:42:46 - Epoch: 42, Step: 30/67, Avg Loss: 2.1448, Avg Regression Loss 0.6566, Avg Classification Loss: 1.4883
+2026-11-05 17:42:47 - Epoch: 42, Step: 40/67, Avg Loss: 2.2385, Avg Regression Loss 0.6955, Avg Classification Loss: 1.5431
+2026-11-05 17:42:49 - Epoch: 42, Step: 50/67, Avg Loss: 2.3334, Avg Regression Loss 0.7593, Avg Classification Loss: 1.5742
+2026-11-05 17:42:51 - Epoch: 42, Step: 60/67, Avg Loss: 2.0883, Avg Regression Loss 0.6310, Avg Classification Loss: 1.4573
+2026-11-05 17:42:52 - Epoch: 42, Training Loss: 2.1698, Training Regression Loss 0.6729, Training Classification Loss: 1.4970
+2026-11-05 17:42:53 - Epoch: 42, Validation Loss: 2.1480, Validation Regression Loss 0.6192, Validation Classification Loss: 1.5288
+2026-11-05 17:43:00 - Epoch: 42, Average Precision Per-class:
+2026-11-05 17:43:00 -     bottle: 0.7554223796177523
+2026-11-05 17:43:00 -     chair: 0.8085940330854919
+2026-11-05 17:43:00 -     trash-bin: 0.8932694115781578
+2026-11-05 17:43:00 -     table: 0.748080188976629
+2026-11-05 17:43:00 -     person: 0.8141683716351745
+2026-11-05 17:43:00 - Epoch: 42, Mean Average Precision (mAP):  0.803906876978641
+2026-11-05 17:43:00 - Saved model models/run3\mb1-ssd-Epoch-42-Loss-2.1480016261339188.pth
+2026-11-05 17:43:03 - Epoch: 43, Step: 10/67, Avg Loss: 2.3023, Avg Regression Loss 0.7106, Avg Classification Loss: 1.5917
+2026-11-05 17:43:04 - Epoch: 43, Step: 20/67, Avg Loss: 2.2287, Avg Regression Loss 0.7240, Avg Classification Loss: 1.5047
+2026-11-05 17:43:06 - Epoch: 43, Step: 30/67, Avg Loss: 2.0777, Avg Regression Loss 0.6144, Avg Classification Loss: 1.4633
+2026-11-05 17:43:08 - Epoch: 43, Step: 40/67, Avg Loss: 2.1228, Avg Regression Loss 0.6468, Avg Classification Loss: 1.4760
+2026-11-05 17:43:10 - Epoch: 43, Step: 50/67, Avg Loss: 2.2020, Avg Regression Loss 0.6779, Avg Classification Loss: 1.5241
+2026-11-05 17:43:11 - Epoch: 43, Step: 60/67, Avg Loss: 2.1405, Avg Regression Loss 0.6326, Avg Classification Loss: 1.5079
+2026-11-05 17:43:12 - Epoch: 43, Training Loss: 2.1410, Training Regression Loss 0.6562, Training Classification Loss: 1.4848
+2026-11-05 17:43:13 - Epoch: 43, Validation Loss: 2.1409, Validation Regression Loss 0.6200, Validation Classification Loss: 1.5210
+2026-11-05 17:43:20 - Epoch: 43, Average Precision Per-class:
+2026-11-05 17:43:20 -     bottle: 0.7656098890112317
+2026-11-05 17:43:20 -     chair: 0.810153916417843
+2026-11-05 17:43:20 -     trash-bin: 0.8937171389530277
+2026-11-05 17:43:20 -     table: 0.7369801530118205
+2026-11-05 17:43:20 -     person: 0.822535434257411
+2026-11-05 17:43:20 - Epoch: 43, Mean Average Precision (mAP):  0.8057993063302668
+2026-11-05 17:43:20 - Saved model models/run3\mb1-ssd-Epoch-43-Loss-2.140933007001877.pth
+2026-11-05 17:43:23 - Epoch: 44, Step: 10/67, Avg Loss: 2.2808, Avg Regression Loss 0.6930, Avg Classification Loss: 1.5878
+2026-11-05 17:43:25 - Epoch: 44, Step: 20/67, Avg Loss: 2.1285, Avg Regression Loss 0.6739, Avg Classification Loss: 1.4547
+2026-11-05 17:43:26 - Epoch: 44, Step: 30/67, Avg Loss: 2.2058, Avg Regression Loss 0.6618, Avg Classification Loss: 1.5440
+2026-11-05 17:43:28 - Epoch: 44, Step: 40/67, Avg Loss: 2.2074, Avg Regression Loss 0.7035, Avg Classification Loss: 1.5039
+2026-11-05 17:43:30 - Epoch: 44, Step: 50/67, Avg Loss: 2.0957, Avg Regression Loss 0.6292, Avg Classification Loss: 1.4666
+2026-11-05 17:43:32 - Epoch: 44, Step: 60/67, Avg Loss: 2.2330, Avg Regression Loss 0.6952, Avg Classification Loss: 1.5377
+2026-11-05 17:43:32 - Epoch: 44, Training Loss: 2.1325, Training Regression Loss 0.6557, Training Classification Loss: 1.4768
+2026-11-05 17:43:34 - Epoch: 44, Validation Loss: 2.1524, Validation Regression Loss 0.6235, Validation Classification Loss: 1.5290
+2026-11-05 17:43:41 - Epoch: 44, Average Precision Per-class:
+2026-11-05 17:43:41 -     bottle: 0.7598454724451011
+2026-11-05 17:43:41 -     chair: 0.8058679790046558
+2026-11-05 17:43:41 -     trash-bin: 0.8922154665103901
+2026-11-05 17:43:41 -     table: 0.7731176947334559
+2026-11-05 17:43:41 -     person: 0.824853307398017
+2026-11-05 17:43:41 - Epoch: 44, Mean Average Precision (mAP):  0.811179984018324
+2026-11-05 17:43:41 - Saved model models/run3\mb1-ssd-Epoch-44-Loss-2.152446135878563.pth
+2026-11-05 17:43:44 - Epoch: 45, Step: 10/67, Avg Loss: 2.3103, Avg Regression Loss 0.6749, Avg Classification Loss: 1.6354
+2026-11-05 17:43:45 - Epoch: 45, Step: 20/67, Avg Loss: 2.0140, Avg Regression Loss 0.5907, Avg Classification Loss: 1.4234
+2026-11-05 17:43:47 - Epoch: 45, Step: 30/67, Avg Loss: 2.2424, Avg Regression Loss 0.7001, Avg Classification Loss: 1.5422
+2026-11-05 17:43:49 - Epoch: 45, Step: 40/67, Avg Loss: 2.2929, Avg Regression Loss 0.7135, Avg Classification Loss: 1.5793
+2026-11-05 17:43:51 - Epoch: 45, Step: 50/67, Avg Loss: 2.0148, Avg Regression Loss 0.6103, Avg Classification Loss: 1.4045
+2026-11-05 17:43:52 - Epoch: 45, Step: 60/67, Avg Loss: 2.2174, Avg Regression Loss 0.6848, Avg Classification Loss: 1.5326
+2026-11-05 17:43:53 - Epoch: 45, Training Loss: 2.1387, Training Regression Loss 0.6491, Training Classification Loss: 1.4896
+2026-11-05 17:43:54 - Epoch: 45, Validation Loss: 2.1414, Validation Regression Loss 0.6180, Validation Classification Loss: 1.5234
+2026-11-05 17:44:01 - Epoch: 45, Average Precision Per-class:
+2026-11-05 17:44:01 -     bottle: 0.7758391166658001
+2026-11-05 17:44:01 -     chair: 0.7988870014650342
+2026-11-05 17:44:01 -     trash-bin: 0.8925506884222482
+2026-11-05 17:44:01 -     table: 0.7487037231797649
+2026-11-05 17:44:01 -     person: 0.8227813833120088
+2026-11-05 17:44:01 - Epoch: 45, Mean Average Precision (mAP):  0.8077523826089713
+2026-11-05 17:44:01 - Saved model models/run3\mb1-ssd-Epoch-45-Loss-2.1414250284433365.pth
+2026-11-05 17:44:04 - Epoch: 46, Step: 10/67, Avg Loss: 2.3583, Avg Regression Loss 0.7203, Avg Classification Loss: 1.6380
+2026-11-05 17:44:06 - Epoch: 46, Step: 20/67, Avg Loss: 1.9105, Avg Regression Loss 0.5791, Avg Classification Loss: 1.3314
+2026-11-05 17:44:08 - Epoch: 46, Step: 30/67, Avg Loss: 2.1895, Avg Regression Loss 0.6575, Avg Classification Loss: 1.5319
+2026-11-05 17:44:10 - Epoch: 46, Step: 40/67, Avg Loss: 2.3018, Avg Regression Loss 0.7184, Avg Classification Loss: 1.5834
+2026-11-05 17:44:11 - Epoch: 46, Step: 50/67, Avg Loss: 2.1383, Avg Regression Loss 0.6087, Avg Classification Loss: 1.5296
+2026-11-05 17:44:13 - Epoch: 46, Step: 60/67, Avg Loss: 2.1142, Avg Regression Loss 0.6543, Avg Classification Loss: 1.4599
+2026-11-05 17:44:14 - Epoch: 46, Training Loss: 2.1204, Training Regression Loss 0.6398, Training Classification Loss: 1.4807
+2026-11-05 17:44:15 - Epoch: 46, Validation Loss: 2.1393, Validation Regression Loss 0.6213, Validation Classification Loss: 1.5180
+2026-11-05 17:44:22 - Epoch: 46, Average Precision Per-class:
+2026-11-05 17:44:22 -     bottle: 0.7717389335810387
+2026-11-05 17:44:22 -     chair: 0.8064942605217299
+2026-11-05 17:44:22 -     trash-bin: 0.8946138761904678
+2026-11-05 17:44:22 -     table: 0.7339408634019479
+2026-11-05 17:44:22 -     person: 0.8293436266938914
+2026-11-05 17:44:22 - Epoch: 46, Mean Average Precision (mAP):  0.8072263120778151
+2026-11-05 17:44:22 - Saved model models/run3\mb1-ssd-Epoch-46-Loss-2.1392509043216705.pth
+2026-11-05 17:44:25 - Epoch: 47, Step: 10/67, Avg Loss: 2.3356, Avg Regression Loss 0.7299, Avg Classification Loss: 1.6057
+2026-11-05 17:44:27 - Epoch: 47, Step: 20/67, Avg Loss: 2.0051, Avg Regression Loss 0.5917, Avg Classification Loss: 1.4134
+2026-11-05 17:44:28 - Epoch: 47, Step: 30/67, Avg Loss: 2.2271, Avg Regression Loss 0.7057, Avg Classification Loss: 1.5214
+2026-11-05 17:44:30 - Epoch: 47, Step: 40/67, Avg Loss: 2.1164, Avg Regression Loss 0.6346, Avg Classification Loss: 1.4818
+2026-11-05 17:44:32 - Epoch: 47, Step: 50/67, Avg Loss: 2.0206, Avg Regression Loss 0.5976, Avg Classification Loss: 1.4230
+2026-11-05 17:44:33 - Epoch: 47, Step: 60/67, Avg Loss: 2.1608, Avg Regression Loss 0.6606, Avg Classification Loss: 1.5002
+2026-11-05 17:44:34 - Epoch: 47, Training Loss: 2.1084, Training Regression Loss 0.6428, Training Classification Loss: 1.4656
+2026-11-05 17:44:35 - Epoch: 47, Validation Loss: 2.1404, Validation Regression Loss 0.6219, Validation Classification Loss: 1.5185
+2026-11-05 17:44:43 - Epoch: 47, Average Precision Per-class:
+2026-11-05 17:44:43 -     bottle: 0.7708220983145788
+2026-11-05 17:44:43 -     chair: 0.8021726951074778
+2026-11-05 17:44:43 -     trash-bin: 0.895946706321232
+2026-11-05 17:44:43 -     table: 0.7437140278529931
+2026-11-05 17:44:43 -     person: 0.833166136475818
+2026-11-05 17:44:43 - Epoch: 47, Mean Average Precision (mAP):  0.8091643328144199
+2026-11-05 17:44:43 - Saved model models/run3\mb1-ssd-Epoch-47-Loss-2.140424206852913.pth
+2026-11-05 17:44:45 - Epoch: 48, Step: 10/67, Avg Loss: 2.2456, Avg Regression Loss 0.6659, Avg Classification Loss: 1.5797
+2026-11-05 17:44:47 - Epoch: 48, Step: 20/67, Avg Loss: 2.2527, Avg Regression Loss 0.6975, Avg Classification Loss: 1.5552
+2026-11-05 17:44:49 - Epoch: 48, Step: 30/67, Avg Loss: 2.3085, Avg Regression Loss 0.7196, Avg Classification Loss: 1.5889
+2026-11-05 17:44:51 - Epoch: 48, Step: 40/67, Avg Loss: 2.1389, Avg Regression Loss 0.6632, Avg Classification Loss: 1.4758
+2026-11-05 17:44:52 - Epoch: 48, Step: 50/67, Avg Loss: 2.0919, Avg Regression Loss 0.6291, Avg Classification Loss: 1.4628
+2026-11-05 17:44:54 - Epoch: 48, Step: 60/67, Avg Loss: 2.0748, Avg Regression Loss 0.6071, Avg Classification Loss: 1.4676
+2026-11-05 17:44:55 - Epoch: 48, Training Loss: 2.1379, Training Regression Loss 0.6506, Training Classification Loss: 1.4873
+2026-11-05 17:44:56 - Epoch: 48, Validation Loss: 2.1331, Validation Regression Loss 0.6192, Validation Classification Loss: 1.5139
+2026-11-05 17:45:03 - Epoch: 48, Average Precision Per-class:
+2026-11-05 17:45:03 -     bottle: 0.771454193861814
+2026-11-05 17:45:03 -     chair: 0.8093590866279475
+2026-11-05 17:45:03 -     trash-bin: 0.8943829516441661
+2026-11-05 17:45:03 -     table: 0.7503388064751001
+2026-11-05 17:45:03 -     person: 0.8170178699229583
+2026-11-05 17:45:03 - Epoch: 48, Mean Average Precision (mAP):  0.8085105817063972
+2026-11-05 17:45:03 - Saved model models/run3\mb1-ssd-Epoch-48-Loss-2.133098155260086.pth
+2026-11-05 17:45:06 - Epoch: 49, Step: 10/67, Avg Loss: 2.3515, Avg Regression Loss 0.7147, Avg Classification Loss: 1.6368
+2026-11-05 17:45:08 - Epoch: 49, Step: 20/67, Avg Loss: 2.1320, Avg Regression Loss 0.6857, Avg Classification Loss: 1.4463
+2026-11-05 17:45:10 - Epoch: 49, Step: 30/67, Avg Loss: 2.0785, Avg Regression Loss 0.5998, Avg Classification Loss: 1.4787
+2026-11-05 17:45:11 - Epoch: 49, Step: 40/67, Avg Loss: 2.1081, Avg Regression Loss 0.6440, Avg Classification Loss: 1.4641
+2026-11-05 17:45:13 - Epoch: 49, Step: 50/67, Avg Loss: 2.0216, Avg Regression Loss 0.6112, Avg Classification Loss: 1.4104
+2026-11-05 17:45:15 - Epoch: 49, Step: 60/67, Avg Loss: 2.2132, Avg Regression Loss 0.6867, Avg Classification Loss: 1.5265
+2026-11-05 17:45:16 - Epoch: 49, Training Loss: 2.0997, Training Regression Loss 0.6367, Training Classification Loss: 1.4629
+2026-11-05 17:45:17 - Epoch: 49, Validation Loss: 2.1280, Validation Regression Loss 0.6145, Validation Classification Loss: 1.5134
+2026-11-05 17:45:24 - Epoch: 49, Average Precision Per-class:
+2026-11-05 17:45:24 -     bottle: 0.7724009826764601
+2026-11-05 17:45:24 -     chair: 0.8104970892434996
+2026-11-05 17:45:24 -     trash-bin: 0.8955315683573092
+2026-11-05 17:45:24 -     table: 0.7745544363990655
+2026-11-05 17:45:24 -     person: 0.8081904402616019
+2026-11-05 17:45:24 - Epoch: 49, Mean Average Precision (mAP):  0.8122349033875873
+2026-11-05 17:45:24 - Saved model models/run3\mb1-ssd-Epoch-49-Loss-2.127955809235573.pth
+2026-11-05 17:45:27 - Epoch: 50, Step: 10/67, Avg Loss: 2.4104, Avg Regression Loss 0.7479, Avg Classification Loss: 1.6626
+2026-11-05 17:45:28 - Epoch: 50, Step: 20/67, Avg Loss: 2.1580, Avg Regression Loss 0.6515, Avg Classification Loss: 1.5066
+2026-11-05 17:45:30 - Epoch: 50, Step: 30/67, Avg Loss: 2.0830, Avg Regression Loss 0.6583, Avg Classification Loss: 1.4247
+2026-11-05 17:45:32 - Epoch: 50, Step: 40/67, Avg Loss: 2.1136, Avg Regression Loss 0.6372, Avg Classification Loss: 1.4764
+2026-11-05 17:45:33 - Epoch: 50, Step: 50/67, Avg Loss: 2.1301, Avg Regression Loss 0.6615, Avg Classification Loss: 1.4687
+2026-11-05 17:45:35 - Epoch: 50, Step: 60/67, Avg Loss: 2.0799, Avg Regression Loss 0.6092, Avg Classification Loss: 1.4707
+2026-11-05 17:45:36 - Epoch: 50, Training Loss: 2.1410, Training Regression Loss 0.6589, Training Classification Loss: 1.4821
+2026-11-05 17:45:37 - Epoch: 50, Validation Loss: 2.1213, Validation Regression Loss 0.6119, Validation Classification Loss: 1.5094
+2026-11-05 17:45:44 - Epoch: 50, Average Precision Per-class:
+2026-11-05 17:45:44 -     bottle: 0.7712543029919702
+2026-11-05 17:45:44 -     chair: 0.8058665847569075
+2026-11-05 17:45:44 -     trash-bin: 0.8953115390578856
+2026-11-05 17:45:44 -     table: 0.7763624931687133
+2026-11-05 17:45:44 -     person: 0.7976779887752877
+2026-11-05 17:45:44 - Epoch: 50, Mean Average Precision (mAP):  0.809294581750153
+2026-11-05 17:45:44 - Saved model models/run3\mb1-ssd-Epoch-50-Loss-2.121281698346138.pth
+2026-11-05 17:45:47 - Epoch: 51, Step: 10/67, Avg Loss: 2.3289, Avg Regression Loss 0.6990, Avg Classification Loss: 1.6299
+2026-11-05 17:45:48 - Epoch: 51, Step: 20/67, Avg Loss: 2.0740, Avg Regression Loss 0.6018, Avg Classification Loss: 1.4722
+2026-11-05 17:45:50 - Epoch: 51, Step: 30/67, Avg Loss: 2.1760, Avg Regression Loss 0.6761, Avg Classification Loss: 1.4999
+2026-11-05 17:45:52 - Epoch: 51, Step: 40/67, Avg Loss: 2.0821, Avg Regression Loss 0.6086, Avg Classification Loss: 1.4734
+2026-11-05 17:45:53 - Epoch: 51, Step: 50/67, Avg Loss: 2.1764, Avg Regression Loss 0.7038, Avg Classification Loss: 1.4726
+2026-11-05 17:45:55 - Epoch: 51, Step: 60/67, Avg Loss: 2.2162, Avg Regression Loss 0.6925, Avg Classification Loss: 1.5238
+2026-11-05 17:45:56 - Epoch: 51, Training Loss: 2.1578, Training Regression Loss 0.6635, Training Classification Loss: 1.4943
+2026-11-05 17:45:57 - Epoch: 51, Validation Loss: 2.1334, Validation Regression Loss 0.6174, Validation Classification Loss: 1.5160
+2026-11-05 17:46:04 - Epoch: 51, Average Precision Per-class:
+2026-11-05 17:46:04 -     bottle: 0.7758575294070978
+2026-11-05 17:46:04 -     chair: 0.8075961634876
+2026-11-05 17:46:04 -     trash-bin: 0.8938269960464802
+2026-11-05 17:46:04 -     table: 0.7619075236300116
+2026-11-05 17:46:04 -     person: 0.8192645331937708
+2026-11-05 17:46:04 - Epoch: 51, Mean Average Precision (mAP):  0.8116905491529922
+2026-11-05 17:46:04 - Saved model models/run3\mb1-ssd-Epoch-51-Loss-2.1334037333726883.pth
+2026-11-05 17:46:07 - Epoch: 52, Step: 10/67, Avg Loss: 2.4229, Avg Regression Loss 0.7487, Avg Classification Loss: 1.6742
+2026-11-05 17:46:09 - Epoch: 52, Step: 20/67, Avg Loss: 1.9617, Avg Regression Loss 0.5917, Avg Classification Loss: 1.3701
+2026-11-05 17:46:10 - Epoch: 52, Step: 30/67, Avg Loss: 2.2547, Avg Regression Loss 0.7215, Avg Classification Loss: 1.5332
+2026-11-05 17:46:12 - Epoch: 52, Step: 40/67, Avg Loss: 2.1276, Avg Regression Loss 0.6712, Avg Classification Loss: 1.4564
+2026-11-05 17:46:14 - Epoch: 52, Step: 50/67, Avg Loss: 2.0385, Avg Regression Loss 0.5822, Avg Classification Loss: 1.4563
+2026-11-05 17:46:15 - Epoch: 52, Step: 60/67, Avg Loss: 2.0314, Avg Regression Loss 0.6044, Avg Classification Loss: 1.4270
+2026-11-05 17:46:16 - Epoch: 52, Training Loss: 2.1112, Training Regression Loss 0.6404, Training Classification Loss: 1.4708
+2026-11-05 17:46:17 - Epoch: 52, Validation Loss: 2.1217, Validation Regression Loss 0.6131, Validation Classification Loss: 1.5086
+2026-11-05 17:46:24 - Epoch: 52, Average Precision Per-class:
+2026-11-05 17:46:24 -     bottle: 0.7741577942872725
+2026-11-05 17:46:24 -     chair: 0.8032268789954142
+2026-11-05 17:46:24 -     trash-bin: 0.8943992941146675
+2026-11-05 17:46:24 -     table: 0.7492245234505002
+2026-11-05 17:46:24 -     person: 0.8266157920323414
+2026-11-05 17:46:24 - Epoch: 52, Mean Average Precision (mAP):  0.8095248565760393
+2026-11-05 17:46:24 - Saved model models/run3\mb1-ssd-Epoch-52-Loss-2.121735841035843.pth
+2026-11-05 17:46:27 - Epoch: 53, Step: 10/67, Avg Loss: 2.2858, Avg Regression Loss 0.6873, Avg Classification Loss: 1.5985
+2026-11-05 17:46:29 - Epoch: 53, Step: 20/67, Avg Loss: 1.9570, Avg Regression Loss 0.5749, Avg Classification Loss: 1.3821
+2026-11-05 17:46:31 - Epoch: 53, Step: 30/67, Avg Loss: 2.0548, Avg Regression Loss 0.6288, Avg Classification Loss: 1.4261
+2026-11-05 17:46:33 - Epoch: 53, Step: 40/67, Avg Loss: 2.0302, Avg Regression Loss 0.5886, Avg Classification Loss: 1.4416
+2026-11-05 17:46:34 - Epoch: 53, Step: 50/67, Avg Loss: 2.0765, Avg Regression Loss 0.6247, Avg Classification Loss: 1.4518
+2026-11-05 17:46:36 - Epoch: 53, Step: 60/67, Avg Loss: 2.1762, Avg Regression Loss 0.6616, Avg Classification Loss: 1.5146
+2026-11-05 17:46:37 - Epoch: 53, Training Loss: 2.0545, Training Regression Loss 0.6150, Training Classification Loss: 1.4395
+2026-11-05 17:46:38 - Epoch: 53, Validation Loss: 2.1219, Validation Regression Loss 0.6128, Validation Classification Loss: 1.5091
+2026-11-05 17:46:45 - Epoch: 53, Average Precision Per-class:
+2026-11-05 17:46:45 -     bottle: 0.7750201350487097
+2026-11-05 17:46:45 -     chair: 0.8069445726193925
+2026-11-05 17:46:45 -     trash-bin: 0.8947593768040297
+2026-11-05 17:46:45 -     table: 0.7456270172019024
+2026-11-05 17:46:45 -     person: 0.8062487570245421
+2026-11-05 17:46:45 - Epoch: 53, Mean Average Precision (mAP):  0.8057199717397152
+2026-11-05 17:46:45 - Saved model models/run3\mb1-ssd-Epoch-53-Loss-2.121891289949417.pth
+2026-11-05 17:46:48 - Epoch: 54, Step: 10/67, Avg Loss: 2.1434, Avg Regression Loss 0.6275, Avg Classification Loss: 1.5160
+2026-11-05 17:46:49 - Epoch: 54, Step: 20/67, Avg Loss: 2.2190, Avg Regression Loss 0.6732, Avg Classification Loss: 1.5457
+2026-11-05 17:46:51 - Epoch: 54, Step: 30/67, Avg Loss: 2.2215, Avg Regression Loss 0.6875, Avg Classification Loss: 1.5341
+2026-11-05 17:46:53 - Epoch: 54, Step: 40/67, Avg Loss: 2.0903, Avg Regression Loss 0.6032, Avg Classification Loss: 1.4871
+2026-11-05 17:46:54 - Epoch: 54, Step: 50/67, Avg Loss: 2.2532, Avg Regression Loss 0.6940, Avg Classification Loss: 1.5591
+2026-11-05 17:46:56 - Epoch: 54, Step: 60/67, Avg Loss: 2.0078, Avg Regression Loss 0.6031, Avg Classification Loss: 1.4048
+2026-11-05 17:46:57 - Epoch: 54, Training Loss: 2.1135, Training Regression Loss 0.6353, Training Classification Loss: 1.4782
+2026-11-05 17:46:58 - Epoch: 54, Validation Loss: 2.1149, Validation Regression Loss 0.6100, Validation Classification Loss: 1.5049
+2026-11-05 17:47:05 - Epoch: 54, Average Precision Per-class:
+2026-11-05 17:47:05 -     bottle: 0.7721013201604993
+2026-11-05 17:47:05 -     chair: 0.806976420647637
+2026-11-05 17:47:05 -     trash-bin: 0.8948093397653596
+2026-11-05 17:47:05 -     table: 0.7692185353429668
+2026-11-05 17:47:05 -     person: 0.8017775961038209
+2026-11-05 17:47:05 - Epoch: 54, Mean Average Precision (mAP):  0.8089766424040568
+2026-11-05 17:47:05 - Saved model models/run3\mb1-ssd-Epoch-54-Loss-2.1149286180734634.pth
+2026-11-05 17:47:08 - Epoch: 55, Step: 10/67, Avg Loss: 2.3825, Avg Regression Loss 0.7319, Avg Classification Loss: 1.6506
+2026-11-05 17:47:09 - Epoch: 55, Step: 20/67, Avg Loss: 2.0379, Avg Regression Loss 0.5976, Avg Classification Loss: 1.4402
+2026-11-05 17:47:11 - Epoch: 55, Step: 30/67, Avg Loss: 2.1666, Avg Regression Loss 0.6657, Avg Classification Loss: 1.5009
+2026-11-05 17:47:13 - Epoch: 55, Step: 40/67, Avg Loss: 1.9537, Avg Regression Loss 0.5664, Avg Classification Loss: 1.3873
+2026-11-05 17:47:15 - Epoch: 55, Step: 50/67, Avg Loss: 2.2758, Avg Regression Loss 0.6980, Avg Classification Loss: 1.5778
+2026-11-05 17:47:16 - Epoch: 55, Step: 60/67, Avg Loss: 2.2139, Avg Regression Loss 0.6813, Avg Classification Loss: 1.5326
+2026-11-05 17:47:17 - Epoch: 55, Training Loss: 2.1276, Training Regression Loss 0.6406, Training Classification Loss: 1.4869
+2026-11-05 17:47:18 - Epoch: 55, Validation Loss: 2.1136, Validation Regression Loss 0.6111, Validation Classification Loss: 1.5025
+2026-11-05 17:47:25 - Epoch: 55, Average Precision Per-class:
+2026-11-05 17:47:25 -     bottle: 0.7798004222620524
+2026-11-05 17:47:25 -     chair: 0.8069460849924263
+2026-11-05 17:47:25 -     trash-bin: 0.89380520858522
+2026-11-05 17:47:25 -     table: 0.7609574509228938
+2026-11-05 17:47:25 -     person: 0.8012897720406583
+2026-11-05 17:47:25 - Epoch: 55, Mean Average Precision (mAP):  0.8085597877606503
+2026-11-05 17:47:25 - Saved model models/run3\mb1-ssd-Epoch-55-Loss-2.1136016994714737.pth
+2026-11-05 17:47:28 - Epoch: 56, Step: 10/67, Avg Loss: 2.5026, Avg Regression Loss 0.7357, Avg Classification Loss: 1.7669
+2026-11-05 17:47:30 - Epoch: 56, Step: 20/67, Avg Loss: 2.0960, Avg Regression Loss 0.6214, Avg Classification Loss: 1.4746
+2026-11-05 17:47:31 - Epoch: 56, Step: 30/67, Avg Loss: 2.0689, Avg Regression Loss 0.6319, Avg Classification Loss: 1.4370
+2026-11-05 17:47:33 - Epoch: 56, Step: 40/67, Avg Loss: 2.0357, Avg Regression Loss 0.6302, Avg Classification Loss: 1.4055
+2026-11-05 17:47:35 - Epoch: 56, Step: 50/67, Avg Loss: 2.1037, Avg Regression Loss 0.6120, Avg Classification Loss: 1.4917
+2026-11-05 17:47:36 - Epoch: 56, Step: 60/67, Avg Loss: 2.1854, Avg Regression Loss 0.6594, Avg Classification Loss: 1.5260
+2026-11-05 17:47:38 - Epoch: 56, Training Loss: 2.1233, Training Regression Loss 0.6323, Training Classification Loss: 1.4910
+2026-11-05 17:47:39 - Epoch: 56, Validation Loss: 2.1126, Validation Regression Loss 0.6096, Validation Classification Loss: 1.5029
+2026-11-05 17:47:45 - Epoch: 56, Average Precision Per-class:
+2026-11-05 17:47:45 -     bottle: 0.7739350656986678
+2026-11-05 17:47:45 -     chair: 0.8085851023145523
+2026-11-05 17:47:45 -     trash-bin: 0.8954312069075919
+2026-11-05 17:47:45 -     table: 0.7538527104876008
+2026-11-05 17:47:45 -     person: 0.8016530156405188
+2026-11-05 17:47:45 - Epoch: 56, Mean Average Precision (mAP):  0.8066914202097862
+2026-11-05 17:47:45 - Saved model models/run3\mb1-ssd-Epoch-56-Loss-2.112578645348549.pth
+2026-11-05 17:47:48 - Epoch: 57, Step: 10/67, Avg Loss: 2.3374, Avg Regression Loss 0.7063, Avg Classification Loss: 1.6311
+2026-11-05 17:47:50 - Epoch: 57, Step: 20/67, Avg Loss: 2.1557, Avg Regression Loss 0.6429, Avg Classification Loss: 1.5127
+2026-11-05 17:47:52 - Epoch: 57, Step: 30/67, Avg Loss: 1.9815, Avg Regression Loss 0.5883, Avg Classification Loss: 1.3932
+2026-11-05 17:47:53 - Epoch: 57, Step: 40/67, Avg Loss: 2.0777, Avg Regression Loss 0.6445, Avg Classification Loss: 1.4331
+2026-11-05 17:47:55 - Epoch: 57, Step: 50/67, Avg Loss: 2.1322, Avg Regression Loss 0.6506, Avg Classification Loss: 1.4816
+2026-11-05 17:47:57 - Epoch: 57, Step: 60/67, Avg Loss: 2.1699, Avg Regression Loss 0.6513, Avg Classification Loss: 1.5185
+2026-11-05 17:47:58 - Epoch: 57, Training Loss: 2.1016, Training Regression Loss 0.6373, Training Classification Loss: 1.4643
+2026-11-05 17:47:59 - Epoch: 57, Validation Loss: 2.1178, Validation Regression Loss 0.6127, Validation Classification Loss: 1.5051
+2026-11-05 17:48:06 - Epoch: 57, Average Precision Per-class:
+2026-11-05 17:48:06 -     bottle: 0.7738830957942477
+2026-11-05 17:48:06 -     chair: 0.8104251498558143
+2026-11-05 17:48:06 -     trash-bin: 0.8948900823961534
+2026-11-05 17:48:06 -     table: 0.7726428622495585
+2026-11-05 17:48:06 -     person: 0.8045952602947033
+2026-11-05 17:48:06 - Epoch: 57, Mean Average Precision (mAP):  0.8112872901180953
+2026-11-05 17:48:06 - Saved model models/run3\mb1-ssd-Epoch-57-Loss-2.1177789717912674.pth
+2026-11-05 17:48:09 - Epoch: 58, Step: 10/67, Avg Loss: 2.3306, Avg Regression Loss 0.7279, Avg Classification Loss: 1.6027
+2026-11-05 17:48:10 - Epoch: 58, Step: 20/67, Avg Loss: 2.0605, Avg Regression Loss 0.6259, Avg Classification Loss: 1.4346
+2026-11-05 17:48:12 - Epoch: 58, Step: 30/67, Avg Loss: 2.1067, Avg Regression Loss 0.6290, Avg Classification Loss: 1.4777
+2026-11-05 17:48:14 - Epoch: 58, Step: 40/67, Avg Loss: 2.1831, Avg Regression Loss 0.6508, Avg Classification Loss: 1.5322
+2026-11-05 17:48:15 - Epoch: 58, Step: 50/67, Avg Loss: 2.1089, Avg Regression Loss 0.6462, Avg Classification Loss: 1.4627
+2026-11-05 17:48:17 - Epoch: 58, Step: 60/67, Avg Loss: 2.0733, Avg Regression Loss 0.6431, Avg Classification Loss: 1.4301
+2026-11-05 17:48:18 - Epoch: 58, Training Loss: 2.1100, Training Regression Loss 0.6437, Training Classification Loss: 1.4663
+2026-11-05 17:48:19 - Epoch: 58, Validation Loss: 2.1112, Validation Regression Loss 0.6115, Validation Classification Loss: 1.4996
+2026-11-05 17:48:26 - Epoch: 58, Average Precision Per-class:
+2026-11-05 17:48:26 -     bottle: 0.7780745515227453
+2026-11-05 17:48:26 -     chair: 0.808736941056112
+2026-11-05 17:48:26 -     trash-bin: 0.8947839609478716
+2026-11-05 17:48:26 -     table: 0.7742385628847971
+2026-11-05 17:48:26 -     person: 0.8032673129134584
+2026-11-05 17:48:26 - Epoch: 58, Mean Average Precision (mAP):  0.8118202658649969
+2026-11-05 17:48:26 - Saved model models/run3\mb1-ssd-Epoch-58-Loss-2.1111890226602554.pth
+2026-11-05 17:48:29 - Epoch: 59, Step: 10/67, Avg Loss: 2.2403, Avg Regression Loss 0.7025, Avg Classification Loss: 1.5378
+2026-11-05 17:48:31 - Epoch: 59, Step: 20/67, Avg Loss: 2.1611, Avg Regression Loss 0.6590, Avg Classification Loss: 1.5020
+2026-11-05 17:48:33 - Epoch: 59, Step: 30/67, Avg Loss: 2.3818, Avg Regression Loss 0.7840, Avg Classification Loss: 1.5978
+2026-11-05 17:48:35 - Epoch: 59, Step: 40/67, Avg Loss: 2.0747, Avg Regression Loss 0.6356, Avg Classification Loss: 1.4391
+2026-11-05 17:48:36 - Epoch: 59, Step: 50/67, Avg Loss: 2.2334, Avg Regression Loss 0.6633, Avg Classification Loss: 1.5701
+2026-11-05 17:48:38 - Epoch: 59, Step: 60/67, Avg Loss: 2.0425, Avg Regression Loss 0.6207, Avg Classification Loss: 1.4218
+2026-11-05 17:48:39 - Epoch: 59, Training Loss: 2.1506, Training Regression Loss 0.6656, Training Classification Loss: 1.4850
+2026-11-05 17:48:40 - Epoch: 59, Validation Loss: 2.1185, Validation Regression Loss 0.6134, Validation Classification Loss: 1.5051
+2026-11-05 17:48:47 - Epoch: 59, Average Precision Per-class:
+2026-11-05 17:48:47 -     bottle: 0.7771212276061114
+2026-11-05 17:48:47 -     chair: 0.8081649007593081
+2026-11-05 17:48:47 -     trash-bin: 0.8951599374706781
+2026-11-05 17:48:47 -     table: 0.7755660209136146
+2026-11-05 17:48:47 -     person: 0.8213181268235107
+2026-11-05 17:48:47 - Epoch: 59, Mean Average Precision (mAP):  0.8154660427146446
+2026-11-05 17:48:47 - Saved model models/run3\mb1-ssd-Epoch-59-Loss-2.118500381708145.pth
+2026-11-05 17:48:47 - Task done, exiting program.

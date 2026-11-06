@@ -1,0 +1,6 @@
+BACKGROUND
+bottle
+chair
+trash-bin
+table
+person
