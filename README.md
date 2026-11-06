@@ -746,6 +746,9 @@ regression loss (is the box position correct?). Check for run5 at epoch
 
 ![Validation loss of all runs](images/compare_val_loss.png)
 
+"Validation loss" is the name in the training code and in TensorBoard. It
+is calculated on the 119 **test images** ([section 6.1](#61-settings)).
+
 - **No run overfits.** The validation loss goes down in all runs and
   does not rise at the end. The lowest value of each run is between epoch
   52 and 58.
