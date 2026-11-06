@@ -500,8 +500,11 @@ The curves of run1 compared with all other runs are in
 
 > **Criterion:** [US-5: Hyperparameter Tuning](https://gitlab.hs-coburg.de/aegis-robot/objectlocalization/-/work_items/10)
 
-run2 uses the input size 300×300, all other runs use 512×512. We expected 512×512 to be better, because
-bottles are small in our images.
+run2 uses the input size 300×300, all other runs use 512×512.
+
+**Prediction before the run:** if the small size of the bottles is the
+main cause of their low AP, a larger input must improve **bottle much
+more** than the large classes (table, person).
 
 **Box sizes in our dataset.** Box height as a share of the image height,
 for all 8,148 boxes of the 1,188 images of the dataset (the terms small /
@@ -523,6 +526,13 @@ medium / large are defined in [section 1.2](#12-object-size-near--far)):
   thus larger than most bottles. At 512×512, the smallest default box is
   51.2 px (**10 %** of the image side), on a finer grid (32×32 instead of
   19×19).
+- **Why 300×300 misses small bottles.** The model resizes our 640×480
+  images. At 300×300, the width of an object becomes 0.47× and its height
+  0.63×: a bottle with a width of 25 px becomes approximately 12 px wide.
+  In a default box of 60 px, such a bottle has an IoU far below 0.5. Thus,
+  it gets almost no default boxes, and the model gets almost no training
+  examples for it.
+- The input 512×512 has 262,144 pixels, 2.9× more than 300×300 (90,000).
 
 **Small objects in SSD (literature).** The quotes below are word for word
 from the papers. The page numbers are the page numbers of the linked PDF.
@@ -613,6 +623,12 @@ background.
 - As expected from the literature, the small class **bottle** gains most
   (+0.288). The large classes table and person are a little worse at
   512×512.
+- The **box positions** improve more than the class decision: validation
+  regression loss 0.69 → 0.50, classification loss 1.45 → 1.36 (epoch 59).
+- **Conclusion:** the result agrees with the prediction. The small class
+  improved most, the large classes did not improve. Thus, the low bottle AP
+  of run2 comes mainly from the small size of the bottles, as the
+  literature [1], [2] says.
 
 ![Bottle AP of all runs](images/compare_bottle.png)
 
@@ -720,6 +736,9 @@ TensorBoard):
 
 ![Validation loss of all runs](images/compare_val_loss.png)
 
+"Validation loss" is the name in the training code and in TensorBoard. It
+is calculated on the 119 **test images** ([section 6.1](#61-settings)).
+
 - **No run overfits.** The validation loss goes down in all runs and
   does not rise at the end. The lowest value of each run is between epoch
   52 and 58.
@@ -743,6 +762,11 @@ TensorBoard):
   The ranges of run4 and run5 overlap a little (0.828-0.830). Thus, the
   gain of run5 (+0.005 at epoch 59) is small; the clearer sign is that
   run5 is higher in each of the last 10 epochs.
+- **Input size: one change, three effects.** 512×512 changes the number of
+  pixels, the grid and the default boxes together
+  ([section 7.3](#73-input-size-run2)). The result shows that the handling
+  of small objects is the cause. It does not show which of the three
+  helps most.
 - **One training for each setting, without a fixed random seed.** The
   order of the images and the data augmentation are random. Another
   training with the same settings can give a slightly different mAP.
