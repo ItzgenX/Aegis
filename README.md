@@ -65,10 +65,16 @@ All images are named with a number:
 Some numbers are not used, because we removed images that are too similar
 to a test image ([section 5](#5-training--evaluation--test-split)).
 
-**Where the data is:** folder `dataset` (Pascal VOC format: `JPEGImages`,
-`Annotations`, `ImageSets/Main`, `labels.txt`). The verified boxes are in
-the [Roboflow project](https://app.roboflow.com/join/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3Jrc3BhY2VJZCI6Ikg1S2hkS25QQXNiZG8yajJSMVJEZDU4S1M3bjIiLCJyb2xlIjoib3duZXIiLCJpbnZpdGVyIjoiYWRpMjA1NHNAaHMtY29idXJnLmRlIiwiaWF0IjoxNzkzOTQ4MjAwfQ.D-Z60G55dA1YkslmSeSHZAa0YnJOUTxf-7qU6kV-fLQ) ([section 4](#4-review-and-correction)). The images are not in
-this git repository because of their size.
+**Where the data is:** The images are not in this
+git repository because of their size. On Roboflow, there are two projects:
+
+- [Aegis Object Detection](https://app.roboflow.com/archives-workspace/aegis-object-detection-iskto/browse?queryText=&pageSize=100&startingIndex=0&browseQuery=true): the images with the boxes checked by hand
+  ([section 4](#4-review-and-correction)), before the near-copies were
+  removed.
+- [Aegis Dataset Clean](https://app.roboflow.com/archives-workspace/aegis-dataset-clean/browse?queryText=&pageSize=100&startingIndex=0&browseQuery=true):
+  the dataset after the near-copies were removed
+  ([section 5](#5-training--evaluation--test-split)). All training runs
+  use this dataset.
 
 ### 1.2 Object size (near / far)
 
@@ -610,9 +616,9 @@ background.
 
 ![Bottle AP of all runs](images/compare_bottle.png)
 
-- run1 (frozen backbone) and run2 (300×300) stay at about 0.55 bottle AP
-  for the whole training. More epochs do not help; the setting is the
-  limit.
+- run1 (frozen backbone) and run2 (300×300) rise slowly and end at only
+  0.57 and 0.56 bottle AP, far below the other runs. Their curves are flat
+  at the end, so more epochs do not help; the setting is the limit.
 - The runs with 512×512 and a trained backbone reach 0.78-0.84. run5 is
   higher than run4 from about epoch 38 (0.843 vs. 0.790 at epoch 59).
 - 512×512 needs more computing time on the Jetson. We measure the FPS on
@@ -879,6 +885,9 @@ the side.
   The Jetson needs this format for TensorRT.
 - The files are in `pytorch-ssd/models/runN/`: `ssd-mobilenet.onnx`,
   `ssd-mobilenet.onnx.data` and `labels.txt`.
+- In this git repository, each run folder contains only the PyTorch model
+  of the last epoch (`mb1-ssd-Epoch-59-….pth`) and its ONNX files. The
+  models of the other epochs are not uploaded because of their size.
 - Only the final model (run5) runs on the Jetson
   ([section 9](#9-run-the-model-on-the-jetson-orin)).
 - The ONNX files are not used for the evaluation ([section 7.1](#71-metric-and-method)).
