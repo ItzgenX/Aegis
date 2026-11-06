@@ -630,7 +630,7 @@ background.
   of run2 comes mainly from the small size of the bottles, as the
   literature [1], [2] says.
 
-![Bottle AP of all runs](images/compare_bottle.png)
+![Bottle AP of all runs](pytorch-ssd/models/figures/compare_bottle.png)
 
 - run1 (frozen backbone) and run2 (300×300) rise slowly and end at only
   0.57 and 0.56 bottle AP, far below the other runs. Their curves are flat
@@ -731,7 +731,7 @@ and in TensorBoard; it is calculated on the 119 **test images**
 **mAP on the test images.** run1 0.692, run2 0.776, run3 0.815, run4 0.827,
 run5 0.832 (epoch 59).
 
-![Test mAP of all runs](images/compare_map.png)
+![Test mAP of all runs](pytorch-ssd/models/figures/compare_map.png)
 
 - **The runs form 3 groups:** frozen backbone (run1) about 0.69, 300×300
   (run2) about 0.78, and 512×512 with a trained backbone (run3-run5)
@@ -744,10 +744,7 @@ run5 0.832 (epoch 59).
 regression loss (is the box position correct?). Check for run5 at epoch
 59: 1.36 + 0.50 = 1.86.
 
-![Validation loss of all runs](images/compare_val_loss.png)
-
-"Validation loss" is the name in the training code and in TensorBoard. It
-is calculated on the 119 **test images** ([section 6.1](#61-settings)).
+![Validation loss of all runs](pytorch-ssd/models/figures/compare_val_loss.png)
 
 - **No run overfits.** The validation loss goes down in all runs and
   does not rise at the end. The lowest value of each run is between epoch
@@ -763,11 +760,11 @@ smoothed lines; the column "Value" shows the real values at epoch 59.
 
 *Training loss (left) and validation loss (right):*
 
-![TensorBoard: training and validation loss of all runs](images/tb_loss.png)
+![TensorBoard: training and validation loss of all runs](pytorch-ssd/models/figures/train_val_loss.png)
 
 *AP of each class (from left: bottle, chair, person, table, trash-bin):*
 
-![TensorBoard: AP of each class, all runs](images/tb_class_ap.png)
+![TensorBoard: AP of each class, all runs](pytorch-ssd/models/figures/class_avg_precision.png)
 
 - **Bottle:** two groups. run1 and run2 end at 0.57 and 0.56, the runs with
   512×512 and a trained backbone at 0.78-0.84.
@@ -833,7 +830,8 @@ same class). For each image, we count:
 without a box was not detected. The 7 example images of each run are in
 `pytorch-ssd/models/runN/inference_test/`, with the same numbers as the
 dataset (e.g. `797.jpg`). Thus, the runs can be compared on the same
-images. The run5 examples below are also in the folder `images`.
+images. The run5 examples below are also in the folder
+`pytorch-ssd/models/figures/`, together with the charts of this section.
 
 **Result:** 32 of 119 test images have no error. 87 images have at least
 one error. In total, there are 43 wrong detections (chair 17, table 11,
@@ -857,13 +855,13 @@ the table (1.00), the chair (0.99), two trash bins (1.00) and three
 bottles (0.95, 0.78, 0.75) are found. The two bottles on the table stand
 in front of the bright window. No error.
 
-![run5: backlight](images/797.jpg)
+![run5: backlight](pytorch-ssd/models/figures/797.jpg)
 
 *Many objects (test image 389):* the chair (0.98),
 the table (0.87), three trash bins and three bottles, also the metal
 bottle in the front (0.76), are found. No error.
 
-![run5: many objects](images/389.jpg)
+![run5: many objects](pytorch-ssd/models/figures/389.jpg)
 
 **Failure cases:**
 
@@ -871,13 +869,13 @@ bottle in the front (0.76), are found. No error.
 row at the window. Only one bottle is found (0.59). The other three are
 only a few pixels wide; this is the small-object problem of [section 7.3](#73-input-size-run2).
 
-![run5: small bottles missed](images/243.jpg)
+![run5: small bottles missed](pytorch-ssd/models/figures/243.jpg)
 
 *Partly hidden objects in evening light (test image 1013):* the walking person (0.95), the table (1.00), two chairs and two
 trash bins are found. A chair and a trash bin that the person hides
 partly, and four small bottles, are not detected.
 
-![run5: partly hidden objects](images/1013.jpg)
+![run5: partly hidden objects](pytorch-ssd/models/figures/1013.jpg)
 
 *Person behind a chair (test image 539):* a person
 bends down behind an office chair. The chair and one bottle (0.64) are
@@ -885,7 +883,7 @@ found. The person is not found correctly: the two person boxes (0.62,
 0.48) do not match the person. The bottle in the hand of the person is
 missed.
 
-![run5: person behind a chair](images/539.jpg)
+![run5: person behind a chair](pytorch-ssd/models/figures/539.jpg)
 
 *Camera very close to a chair (test image 1148, evening light):* the camera is directly below a chair. The chair (0.87),
 the trash bin (1.00) and the person on the left (0.72) are found. The
@@ -893,7 +891,7 @@ legs of the person behind the chair, the table and the trash bin cut by
 the right image edge are not detected. Two chair boxes (0.69, 0.92) do
 not match a verified box.
 
-![run5: camera close to a chair](images/1148.jpg)
+![run5: camera close to a chair](pytorch-ssd/models/figures/1148.jpg)
 
 *Table seen from the side (test image 809):* the
 camera is at the height of the table top. The verified table box covers
@@ -903,7 +901,7 @@ detection as wrong, although the model found the table. Two small
 bottles on the table are not detected; the two chairs, three trash bins
 and two bottles are found.
 
-![run5: table from the side](images/809.jpg)
+![run5: table from the side](pytorch-ssd/models/figures/809.jpg)
 
 **Causes of the errors:** small objects far away (mostly bottles), objects
 that are partly hidden by other objects or cut by the image edge, a
