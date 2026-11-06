@@ -65,10 +65,16 @@ All images are named with a number:
 Some numbers are not used, because we removed images that are too similar
 to a test image ([section 5](#5-training--evaluation--test-split)).
 
-**Where the data is:** folder `dataset` (Pascal VOC format: `JPEGImages`,
-`Annotations`, `ImageSets/Main`, `labels.txt`). The verified boxes are in
-the [Roboflow project](https://app.roboflow.com/join/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ3b3Jrc3BhY2VJZCI6Ikg1S2hkS25QQXNiZG8yajJSMVJEZDU4S1M3bjIiLCJyb2xlIjoib3duZXIiLCJpbnZpdGVyIjoiYWRpMjA1NHNAaHMtY29idXJnLmRlIiwiaWF0IjoxNzkzOTQ4MjAwfQ.D-Z60G55dA1YkslmSeSHZAa0YnJOUTxf-7qU6kV-fLQ) ([section 4](#4-review-and-correction)). The images are not in
-this git repository because of their size.
+**Where the data is:** The images are not in this
+git repository because of their size. On Roboflow, there are two projects:
+
+- [Aegis Object Detection](https://app.roboflow.com/archives-workspace/aegis-object-detection-iskto/browse?queryText=&pageSize=100&startingIndex=0&browseQuery=true): the images with the boxes checked by hand
+  ([section 4](#4-review-and-correction)), before the near-copies were
+  removed.
+- [Aegis Dataset Clean](https://app.roboflow.com/archives-workspace/aegis-dataset-clean/browse?queryText=&pageSize=100&startingIndex=0&browseQuery=true):
+  the dataset after the near-copies were removed
+  ([section 5](#5-training--evaluation--test-split)). All training runs
+  use this dataset.
 
 ### 1.2 Object size (near / far)
 
@@ -494,8 +500,11 @@ The curves of run1 compared with all other runs are in
 
 > **Criterion:** [US-5: Hyperparameter Tuning](https://gitlab.hs-coburg.de/aegis-robot/objectlocalization/-/work_items/10)
 
-run2 uses the input size 300×300, all other runs use 512×512. We expected 512×512 to be better, because
-bottles are small in our images.
+run2 uses the input size 300×300, all other runs use 512×512.
+
+**Prediction before the run:** if the small size of the bottles is the
+main cause of their low AP, a larger input must improve **bottle much
+more** than the large classes (table, person).
 
 **Box sizes in our dataset.** Box height as a share of the image height,
 for all 8,148 boxes of the 1,188 images of the dataset (the terms small /
@@ -517,6 +526,13 @@ medium / large are defined in [section 1.2](#12-object-size-near--far)):
   thus larger than most bottles. At 512×512, the smallest default box is
   51.2 px (**10 %** of the image side), on a finer grid (32×32 instead of
   19×19).
+- **Why 300×300 misses small bottles.** The model resizes our 640×480
+  images. At 300×300, the width of an object becomes 0.47× and its height
+  0.63×: a bottle with a width of 25 px becomes approximately 12 px wide.
+  In a default box of 60 px, such a bottle has an IoU far below 0.5. Thus,
+  it gets almost no default boxes, and the model gets almost no training
+  examples for it.
+- The input 512×512 has 262,144 pixels, 2.9× more than 300×300 (90,000).
 
 **Small objects in SSD (literature).** The quotes below are word for word
 from the papers. The page numbers are the page numbers of the linked PDF.
@@ -607,12 +623,18 @@ background.
 - As expected from the literature, the small class **bottle** gains most
   (+0.288). The large classes table and person are a little worse at
   512×512.
+- The **box positions** improve more than the class decision: validation
+  regression loss 0.69 → 0.50, classification loss 1.45 → 1.36 (epoch 59).
+- **Conclusion:** the result agrees with the prediction. The small class
+  improved most, the large classes did not improve. Thus, the low bottle AP
+  of run2 comes mainly from the small size of the bottles, as the
+  literature [1], [2] says.
 
 ![Bottle AP of all runs](images/compare_bottle.png)
 
-- run1 (frozen backbone) and run2 (300×300) stay at about 0.55 bottle AP
-  for the whole training. More epochs do not help; the setting is the
-  limit.
+- run1 (frozen backbone) and run2 (300×300) rise slowly and end at only
+  0.57 and 0.56 bottle AP, far below the other runs. Their curves are flat
+  at the end, so more epochs do not help; the setting is the limit.
 - The runs with 512×512 and a trained backbone reach 0.78-0.84. run5 is
   higher than run4 from about epoch 38 (0.843 vs. 0.790 at epoch 59).
 - 512×512 needs more computing time on the Jetson. We measure the FPS on
@@ -700,8 +722,14 @@ Loss at epoch 59:
   61 table boxes, and the table box is often not clear ([section 7.8](#78-visual-evaluation-of-failure-cases),
   test image 809).
 
-**Comparison of all runs** (values from `train.log`, the same values as in
-TensorBoard):
+**Curves of all runs ([US-3](https://gitlab.hs-coburg.de/aegis-robot/objectlocalization/-/work_items/8)).**
+The x-axis is the epoch (0-59). The values are from `train.log`, the same
+values as in TensorBoard. "Validation" is the name in the training code
+and in TensorBoard; it is calculated on the 119 **test images**
+([section 6.1](#61-settings)).
+
+**mAP on the test images.** run1 0.692, run2 0.776, run3 0.815, run4 0.827,
+run5 0.832 (epoch 59).
 
 ![Test mAP of all runs](images/compare_map.png)
 
@@ -712,6 +740,10 @@ TensorBoard):
 - run1 is unstable in the first 20 epochs (down to 0.37 at epoch 11).
 - All curves are flat in the last 10 epochs.
 
+**Validation loss.** Loss = classification loss (is the class correct?) +
+regression loss (is the box position correct?). Check for run5 at epoch
+59: 1.36 + 0.50 = 1.86.
+
 ![Validation loss of all runs](images/compare_val_loss.png)
 
 - **No run overfits.** The validation loss goes down in all runs and
@@ -720,6 +752,29 @@ TensorBoard):
 - Training and validation loss are close at the end (run5: 1.78 / 1.86).
 - run1 stays at about 3.0: the frozen backbone cannot adapt to our camera
   and our lab.
+
+**More information: screenshots from TensorBoard.** The two images below
+are screenshots from TensorBoard (all 5 runs). Colours: grey = run1,
+cyan = run2, pink = run3, orange = run4, purple = run5. TensorBoard shows
+smoothed lines; the column "Value" shows the real values at epoch 59.
+
+*Training loss (left) and validation loss (right):*
+
+![TensorBoard: training and validation loss of all runs](images/tb_loss.png)
+
+*AP of each class (from left: bottle, chair, person, table, trash-bin):*
+
+![TensorBoard: AP of each class, all runs](images/tb_class_ap.png)
+
+- **Bottle:** two groups. run1 and run2 end at 0.57 and 0.56, the runs with
+  512×512 and a trained backbone at 0.78-0.84.
+- **Table:** run1 stays at about 0.62. run2 (300×300) is the best for table
+  (0.805): large objects do not need 512×512.
+- **Person:** all runs are close (0.75-0.83). Person is an easy class.
+- **Chair and trash-bin:** run1 is clearly lower (0.73 / 0.80); all other
+  runs are close together (0.80-0.84 / 0.89-0.91).
+- Thus, the trained backbone helps every class, and 512×512 helps mainly
+  the small class bottle.
 
 ### 7.7 Limits
 
@@ -737,6 +792,11 @@ TensorBoard):
   The ranges of run4 and run5 overlap a little (0.828-0.830). Thus, the
   gain of run5 (+0.005 at epoch 59) is small; the clearer sign is that
   run5 is higher in each of the last 10 epochs.
+- **Input size: one change, three effects.** 512×512 changes the number of
+  pixels, the grid and the default boxes together
+  ([section 7.3](#73-input-size-run2)). The result shows that the handling
+  of small objects is the cause. It does not show which of the three
+  helps most.
 - **One training for each setting, without a fixed random seed.** The
   order of the images and the data augmentation are random. Another
   training with the same settings can give a slightly different mAP.
@@ -879,6 +939,9 @@ the side.
   The Jetson needs this format for TensorRT.
 - The files are in `pytorch-ssd/models/runN/`: `ssd-mobilenet.onnx`,
   `ssd-mobilenet.onnx.data` and `labels.txt`.
+- In this git repository, each run folder contains only the PyTorch model
+  of the last epoch (`mb1-ssd-Epoch-59-….pth`) and its ONNX files. The
+  models of the other epochs are not uploaded because of their size.
 - Only the final model (run5) runs on the Jetson
   ([section 9](#9-run-the-model-on-the-jetson-orin)).
 - The ONNX files are not used for the evaluation ([section 7.1](#71-metric-and-method)).
