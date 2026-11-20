@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BEVFusion Repo Guide</title>
+<style>
+:root{
+  --bg:#fafaf7; --card:#ffffff; --ink:#1c1f24; --muted:#5d6570; --line:#e2e2dc;
+  --cam:#2f7fd1; --lidar:#d9822b; --fuse:#7a4fc4; --head:#2a9d6f; --warn:#c2410c;
+  --code:#f1f1ec; --accent:#2f7fd1;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#14161a; --card:#1c1f25; --ink:#e8e8e3; --muted:#9aa3ae; --line:#2e333b;
+    --cam:#5aa2ec; --lidar:#f0a050; --fuse:#a584e6; --head:#4cc593; --warn:#f08a5a; --code:#242830; --accent:#5aa2ec;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header.hero{padding:48px 0 28px;border-bottom:1px solid var(--line)}
+h1{font-size:2.1rem;line-height:1.2;margin:0 0 8px}
+h2{font-size:1.5rem;margin:0 0 12px;scroll-margin-top:70px}
+h3{font-size:1.1rem;margin:22px 0 6px}
+p{margin:0 0 12px}
+.lead{color:var(--muted);font-size:1.08rem;max-width:720px}
+nav.toc{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap}
+nav.toc a{display:inline-block;padding:11px 12px;color:var(--muted);text-decoration:none;font-size:.9rem}
+nav.toc a:hover{color:var(--accent)}
+section{padding:36px 0;border-bottom:1px solid var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em}
+code{background:var(--code);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);padding:12px 14px;border-radius:8px;overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem;margin:10px 0}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.78rem;font-weight:600;color:#fff}
+.t-cam{background:var(--cam)} .t-lidar{background:var(--lidar)} .t-fuse{background:var(--fuse)} .t-head{background:var(--head)}
+.note{border-left:4px solid var(--accent);background:var(--card);padding:10px 14px;border-radius:0 8px 8px 0;margin:14px 0}
+.warn{border-left-color:var(--warn)}
+.pipe{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr 28px 1fr;align-items:center;gap:4px;margin:16px 0}
+.pipe .arrow{text-align:center;color:var(--muted)}
+.stage{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:10px 8px;text-align:center;cursor:pointer;font-size:.88rem;transition:.15s}
+.stage:hover,.stage.on{border-color:var(--accent);transform:translateY(-2px)}
+.stage b{display:block;font-size:.95rem}
+.stage small{color:var(--muted)}
+.rowlabel{grid-column:1/-1;font-size:.8rem;color:var(--muted);margin-top:8px}
+@media(max-width:720px){.pipe{grid-template-columns:1fr}.pipe .arrow{transform:rotate(90deg)} h1{font-size:1.7rem}}
+#detail{min-height:120px}
+#detail h3{margin-top:0}
+.shape{font-family:ui-monospace,Consolas,monospace;background:var(--code);padding:2px 6px;border-radius:4px;font-size:.85em}
+canvas{max-width:100%;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.ctrl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:8px 0;font-size:.92rem}
+input[type=range]{accent-color:var(--accent)}
+.bars{display:flex;align-items:flex-end;gap:2px;height:110px;margin-top:8px}
+.bars div{flex:1;background:var(--cam);border-radius:2px 2px 0 0;min-height:1px}
+footer{padding:28px 0 60px;color:var(--muted);font-size:.9rem}
+details{margin:8px 0} summary{cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <h1>BEVFusion: a simple guide to this repo</h1>
+  <p class="lead">A self-driving car has cameras and a LiDAR (a laser scanner). This project teaches a computer to use both together to find cars, people and road markings around the vehicle. This page explains how it works and where to find each part in the code, in plain language.</p>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#words">Key words</a><a href="#why">Why</a><a href="#pipeline">Pipeline</a><a href="#camera">Camera</a><a href="#bevpool">BEV pooling</a>
+  <a href="#lidar">LiDAR</a><a href="#fusion">Fusion + heads</a><a href="#config">Configs</a><a href="#train">Training</a><a href="#paper">Paper</a><a href="#map">Repo map</a><a href="#read">Reading order</a><a href="#run">Running it</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="words">
+  <h2>0. Words you will see a lot</h2>
+  <table>
+    <tr><th>Word</th><th>Simple meaning</th></tr>
+    <tr><td><b>LiDAR</b></td><td>A spinning laser on the car roof. It measures the distance to things around the car and gives a cloud of 3D dots called a <b>point cloud</b>. It is very good at "where is it?" but sees no colour.</td></tr>
+    <tr><td><b>Camera</b></td><td>Gives a normal picture with colour and detail. Good at "what is it?" but a single picture does not tell you how far away things are.</td></tr>
+    <tr><td><b>BEV (bird's-eye view)</b></td><td>A map of the scene seen from straight above, like a game map. Cars on a road do not overlap in this view, so it is easy to work with.</td></tr>
+    <tr><td><b>Feature</b></td><td>A list of numbers a neural network uses to describe something (a pixel, a point, a map cell).</td></tr>
+    <tr><td><b>Voxel</b></td><td>A small 3D box of space, like a pixel but in 3D.</td></tr>
+    <tr><td><b>Backbone / neck / head</b></td><td>Backbone: the main part that reads the input. Neck: tidies and combines its outputs. Head: the last part that gives the answer (boxes, labels, masks).</td></tr>
+    <tr><td><b>Fusion</b></td><td>Mixing information from more than one sensor into a single result.</td></tr>
+    <tr><td><b>CUDA op</b></td><td>A small program written for the GPU that is much faster than normal Python code. This repo has several, and they have to be compiled before you can run it.</td></tr>
+    <tr><td><b>nuScenes</b></td><td>The public driving dataset the project is trained and tested on.</td></tr>
+  </table>
+</section>
+
+<section id="why">
+  <h2>1. The problem and the idea</h2>
+  <p>A car has two kinds of "eyes", and each one is good at something different:</p>
+  <ul>
+    <li><b>Cameras</b> see colour and detail, so they know what something is, but they do not know how far away it is.</li>
+    <li><b>LiDAR</b> knows exactly where things are in 3D, but it sees only sparse dots and no colour.</li>
+  </ul>
+  <p>We want the best of both. The hard part is that they describe the world in different ways: a camera gives a flat picture, LiDAR gives 3D dots.</p>
+
+  <p><b>The older approach:</b> take each LiDAR point and give it the colour of the camera pixel it lines up with. The problem is that a camera image has millions of pixels, but LiDAR has only a few thousand points. So only a tiny part of the picture (about 5%) ever gets used, and the rest is thrown away. That makes it hard to understand what things are, like where the road or a crosswalk is.</p>
+
+  <p><b>BEVFusion's idea:</b> turn <i>both</i> sensors into the same top-down map (the BEV), then mix the two maps. Nothing from the camera is thrown away, and a top-down map is a good place to find cars, people and road markings.</p>
+  <div class="note">The same fused map can be used for different jobs. For <b>detection</b> the result is 3D boxes around objects. For <b>map segmentation</b> the result is a coloured map (road, crosswalk, and so on). The only part that changes is the last piece, the head.</div>
+  <p>One more trick: turning camera pictures into a top-down map was very slow, so the authors wrote a fast GPU program for it, called <code>bev_pool</code>. That is why this repo has compiled code in it.</p>
+</section>
+
+<section id="pipeline">
+  <h2>2. The whole pipeline in one picture</h2>
+  <p>Click any box to see what it does, the size of its data, and the file where it lives. The sizes are for the main detection setup (<code>swint_v0p075/convfuser.yaml</code>).</p>
+
+  <div class="pipe" id="pipe">
+    <div class="rowlabel"><span class="tag t-cam">camera</span> path</div>
+    <div class="stage" data-k="img"><b>6 images</b><small>input</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="cbb"><b>Swin-T + neck</b><small>find patterns</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="vt"><b>View transform</b><small>picture → 3D</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="cbev"><b>Camera map</b><small>80 channels</small></div>
+
+    <div class="rowlabel"><span class="tag t-lidar">LiDAR</span> path</div>
+    <div class="stage" data-k="pts"><b>Point cloud</b><small>10 scans</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="vox"><b>Voxelize</b><small>put in 3D boxes</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="sp"><b>Sparse 3D conv</b><small>find patterns</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="lbev"><b>LiDAR map</b><small>256 channels</small></div>
+
+    <div class="rowlabel"><span class="tag t-fuse">shared</span> part</div>
+    <div class="stage" data-k="fuse"><b>ConvFuser</b><small>mix the two maps</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="dec"><b>Decoder</b><small>clean up</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="head"><b>Head</b><small>TransFusion</small></div><div class="arrow">→</div>
+    <div class="stage" data-k="out"><b>Result</b><small>boxes or masks</small></div>
+  </div>
+
+  <div class="card" id="detail"><h3>Click a box above</h3><p>The details show up here.</p></div>
+
+  <h3>The same thing in code</h3>
+  <p>Everything is run from <code>mmdet3d/models/fusion_models/bevfusion.py</code>. The function <code>forward_single</code> (around line 275) does this:</p>
+<pre>for sensor in encoders:                 # "camera", then "lidar"
+    feature = extract_..._features(...)  # each one gives a top-down map
+    features.append(feature)
+
+x = self.fuser(features)                # mix the maps
+x = self.decoder["backbone"](x)         # more processing on the mixed map
+x = self.decoder["neck"](x)
+
+if training:  losses  = head.loss(...)         # how wrong was the model?
+else:         outputs = head.get_bboxes(...)   # boxes, scores, labels</pre>
+  <div class="note">A small detail: when testing, the code runs the sensors in the opposite order (LiDAR first, then camera). The code comment says this is to "avoid OOM", meaning running out of GPU memory.</div>
+</section>
+
+<section id="camera">
+  <h2>3. Camera path: turning a flat picture into 3D</h2>
+  <p>A picture does not say how far away anything is. The method used here is called <b>Lift-Splat-Shoot (LSS)</b>. It lives in <code>mmdet3d/models/vtransforms/</code>. Here are the steps for each camera:</p>
+  <ol>
+    <li><b>Find patterns.</b> A network called Swin-T reads the image and a neck tidies the result. The output is a smaller "feature picture", 32×88 for a 256×704 image (one-eighth of the size).</li>
+    <li><b>Make a ray of guesses.</b> For every pixel the code imagines a straight line going out from the camera. On that line it puts 118 possible distances, from 1 m to 60 m in steps of 0.5 m. (<code>create_frustum</code> in <code>base.py</code>)</li>
+    <li><b>Guess the distance (the "lift").</b> A small network gives each pixel two things: (a) a set of chances for each of the 118 distances ("probably 20 m away"), and (b) an 80-number description of what the pixel looks like. Then it gives each distance a copy of the description, <b>scaled by how likely that distance is</b>. (<code>lss.py</code>, <code>get_cam_feats</code>)</li>
+    <li><b>Find where each guess is in the real world.</b> Using the camera's position and lens settings, the code works out the real 3D position of every guess. It also undoes any picture or 3D changes made while training, so everything stays lined up. (<code>get_geometry</code> in <code>base.py</code>)</li>
+    <li><b>Drop them on the map (the "splat").</b> All the guesses from all 6 cameras are dropped onto the top-down map and added up per square. See the next section.</li>
+  </ol>
+
+  <h3>Try it: how the distance guess works</h3>
+  <p>For one pixel the network gives a score for every distance, and these are turned into chances. If the network is <b>sure</b>, one distance gets almost all the weight. If it is <b>unsure</b>, the weight is spread out along the whole ray.</p>
+  <div class="ctrl"><label>How sure <input type="range" id="conf" min="0.5" max="12" step="0.1" value="4"></label>
+  <label>Real distance <input type="range" id="tdep" min="2" max="58" step="1" value="22"> <span id="tdv">22 m</span></label></div>
+  <div class="bars" id="bars"></div>
+  <p style="font-size:.85rem;color:var(--muted)">Each bar is one of the 118 distances (1 m to 60 m). The pixel's 80 numbers are multiplied by the height of each bar.</p>
+
+  <details><summary>The different versions: LSS, DepthLSS, BEVDepth</summary>
+    <p><code>LSSTransform</code> guesses distance using the picture alone. <code>DepthLSSTransform</code> (used in the fusion setup) also projects the LiDAR points onto each picture to make a rough distance map, and gives it to the network as a hint. So the camera path gets help from the LiDAR. That projection code is in <code>BaseDepthTransform.forward</code> (<code>base.py</code>, around line 238). The <code>BEVDepth</code> versions also train the distance guess directly, which is what <code>use_depth_loss</code> in <code>bevfusion.py</code> checks for.</p>
+  </details>
+</section>
+
+<section id="bevpool">
+  <h2>4. BEV pooling: the step that had to be fast</h2>
+  <p>After the "lift", one frame has about <b>2 million</b> small feature lists, each with a 3D position. The "splat" step has to put each one into a square of the top-down map and add together all the ones that land in the same square.</p>
+  <p>Done in the simple way, this was very slow. The repo uses a faster way (<code>mmdet3d/ops/bev_pool/</code>):</p>
+  <ol>
+    <li>Work out which square each point belongs to, and throw away points outside the map (<code>base.py</code>, the <code>bev_pool</code> method, around line 149).</li>
+    <li><b>Sort the points by square</b>, so all the points for one square sit next to each other.</li>
+    <li>A GPU program (<code>bev_pool_cuda.cu</code>) lets <b>one worker handle one square</b>. It adds up that square's points and writes one answer. Training also works, because the backward step does the reverse.</li>
+  </ol>
+  <p>The Python side is <code>bev_pool.py</code>. The class <code>QuickCumsumCuda</code> finds where each group starts and ends, then calls the compiled program <code>bev_pool_ext</code>. The paper says this made the step about 40 times faster.</p>
+
+  <h3>Try it: dropping points into map squares</h3>
+  <div class="ctrl"><label>Square size <input type="range" id="cell" min="20" max="80" step="10" value="40"></label>
+  <button id="regen">New points</button><span id="stat"></span></div>
+  <canvas id="bevc" width="560" height="320"></canvas>
+  <p style="font-size:.85rem;color:var(--muted)">The dots stand for features seen from above. Darker squares have more features added into them. Many points collapse into few squares, so the result is much smaller than the input.</p>
+</section>
+
+<section id="lidar">
+  <h2>5. LiDAR path: working only where there are points</h2>
+  <p>A LiDAR scan is a cloud of dots, and most of the space around the car is empty. So the code is built to skip the empty parts:</p>
+  <ol>
+    <li><b>Voxelize</b> (<code>mmdet3d/ops/voxel/</code>): cut the space into tiny boxes, 0.075 m × 0.075 m × 0.2 m. Over a ±54 m range this gives a grid of 1440 × 1440 × 41 boxes, but only about 100,000 of them hold any points. Each box keeps the average of its points (<code>voxelize</code> in <code>bevfusion.py</code>, around line 192).</li>
+    <li><b>SparseEncoder</b> (<code>backbones/sparse_encoder.py</code>): a 3D network that does its work <i>only inside the boxes that have points</i>. It uses a library called <code>spconv</code>, whose code is copied into <code>mmdet3d/ops/spconv/</code>. Four stages shrink the grid step by step.</li>
+    <li><b>Flatten the height.</b> The "up" direction is merged into the channels, which leaves a flat top-down map. Its 256 channels match what the fuser expects (<code>in_channels: [80, 256]</code>).</li>
+  </ol>
+  <div class="note warn"><b>Why you should care:</b> the sparse 3D code and the voxel code are the GPU programs most likely to break on a new graphics card (your RTX 5070 Ti) and a newer PyTorch. They are the hardest part of making this repo run on your machine.</div>
+</section>
+
+<section id="fusion">
+  <h2>6. Mixing the maps, and getting the answer</h2>
+  <h3>Fusion: <code>fusers/conv.py</code></h3>
+  <p>This is only a few lines. Stack the two maps on top of each other (80 + 256 = 336 channels), then pass them through one small convolution, normalisation and ReLU to get 256 channels. It works because both maps already cover the same area and the same squares, which is the whole point of using BEV.</p>
+<pre>nn.Conv2d(sum(in_channels), out_channels, 3, padding=1, bias=False)
+nn.BatchNorm2d(out_channels);  nn.ReLU(True)</pre>
+
+  <h3>Decoder</h3>
+  <p>A 2D network named <code>SECOND</code> (two stages, 128 and 256 channels) and a neck named <code>SECONDFPN</code> that brings both back to the same size and joins them into <b>512 channels</b> on a 180 × 180 map. The detection head expects exactly this (<code>in_channels: 512</code>).</p>
+
+  <h3>Heads (the part that gives the answer)</h3>
+  <table>
+    <tr><th>Head</th><th>File</th><th>Job</th><th>How it works</th></tr>
+    <tr><td><code>TransFusionHead</code></td><td><code>heads/bbox/transfusion.py</code></td><td>Find 3D objects</td><td>Picks the 200 most promising spots on the map, then improves each guess with a small transformer (8 attention heads). Each spot gives the centre, height, size, rotation and speed of an object. In training, guesses are matched to the real objects one-to-one (a "Hungarian assigner", like the DETR model), not with preset box shapes.</td></tr>
+    <tr><td><code>CenterHead</code></td><td><code>heads/bbox/centerpoint.py</code></td><td>Find 3D objects</td><td>Used by the camera-only baselines. It marks the centre of each object on a heat map and predicts the box from there.</td></tr>
+    <tr><td>Map head</td><td><code>heads/segm/vanilla.py</code></td><td>Colour the map</td><td>For every square it says which map classes apply: road, crossing, walkway, stop line, car park, divider.</td></tr>
+  </table>
+</section>
+
+<section id="config">
+  <h2>7. How the settings files (configs) work</h2>
+  <p>Settings are YAML files read by <code>torchpack</code>. The important idea: <b>a config also loads every <code>default.yaml</code> in the folders above it</b>. The detection fusion file is tiny:</p>
+<pre># configs/nuscenes/det/transfusion/secfpn/camera+lidar/swint_v0p075/convfuser.yaml
+model:
+  fuser:
+    type: ConvFuser
+    in_channels: [80, 256]
+    out_channels: 256</pre>
+  <p>All the rest comes from these files, in this order:</p>
+  <table>
+    <tr><th>File</th><th>What it adds</th></tr>
+    <tr><td><code>configs/default.yaml</code></td><td>random seed, logging, saving checkpoints, fp16 (half precision), <code>max_epochs: 20</code>, the training runner</td></tr>
+    <tr><td><code>nuscenes/default.yaml</code></td><td>dataset, map range, voxel size, data tricks, the 10 object classes, the 6 map classes, the data pipelines</td></tr>
+    <tr><td><code>det/default.yaml</code></td><td>model type <code>BEVFusion</code>, radar defaults, a detection data pipeline</td></tr>
+    <tr><td><code>transfusion/default.yaml</code></td><td>the <code>TransFusionHead</code> and its matching rules</td></tr>
+    <tr><td><code>secfpn/default.yaml</code></td><td>the SECOND + SECONDFPN decoder, AdamW optimizer, cyclic learning rate</td></tr>
+    <tr><td><code>camera+lidar/default.yaml</code></td><td>camera neck + DepthLSSTransform, LiDAR voxelize + SparseEncoder, <code>max_epochs: 6</code></td></tr>
+    <tr><td><code>swint_v0p075/default.yaml</code></td><td>Swin-T image network, voxel size 0.075, range ±54 m, cosine learning rate</td></tr>
+  </table>
+  <p>A value like <code>${image_size}</code> is replaced by the value set elsewhere. You can also change any value from the command line, for example <code>--model.encoders.camera.backbone.init_cfg.checkpoint path.pth</code>.</p>
+  <p>The words after <code>type:</code> (<code>BEVFusion</code>, <code>ConvFuser</code>, <code>SparseEncoder</code>, ...) are names in a <b>registry</b>: a lookup table filled by lines like <code>@FUSERS.register_module()</code>. <code>mmdet3d/models/builder.py</code> uses it to turn a name in the YAML into a Python class.</p>
+</section>
+
+<section id="train">
+  <h2>8. How the model is trained</h2>
+  <ol>
+    <li><b>Data:</b> nuScenes has 1000 driving scenes. Each frame has 6 camera images and a 32-beam LiDAR scan. <code>tools/create_data.py</code> prepares the files and a database of real objects.</li>
+    <li><b>Data tricks (augmentation)</b> in <code>datasets/pipelines/</code>: change the pictures (resize, rotate, flip) with <code>ImageAug3D</code>, which saves the change as <code>img_aug_matrix</code>; change the 3D scene (scale, rotate, shift) with <code>GlobalRotScaleTrans</code>, which saves <code>lidar_aug_matrix</code>; and paste extra objects from the database (<code>ObjectPaste</code>). The two saved matrices are how <code>get_geometry</code> keeps camera and LiDAR lined up after the changes.</li>
+    <li><b>Train in two steps:</b> first train a LiDAR-only model. Then train the fusion model starting from it (<code>--load_from pretrained/lidar-only-det.pth</code>), using an image network that was already trained on the nuImages dataset. The fusion setup trains for 6 epochs at learning rate 2e-4.</li>
+    <li><b>Start it:</b> <code>torchpack dist-run -np 8 python tools/train.py &lt;config&gt;</code>. It uses MPI to start one process for each GPU.</li>
+  </ol>
+</section>
+
+<section id="paper">
+  <h2>9. What the paper adds</h2>
+  <p>This section uses the paper <i>BEVFusion: Multi-Task Multi-Sensor Fusion with Unified Bird's-Eye View Representation</i> (MIT, arXiv 2205.13542, ICRA 2023). I read it from the arXiv web version, so section numbers are the paper's own, but I could not tell which version it was. Where I could not find something in the text I say <b>not found</b> instead of guessing.</p>
+
+  <h3>9.1 Why not paint the LiDAR points? (Sec. I, III-A)</h3>
+  <ul>
+    <li><b>Camera onto LiDAR points (the older way):</b> with a 32-beam LiDAR only about <b>5%</b> of the camera's information lands on a LiDAR point. The other 95% is lost. The paper says this loses meaning (what things are). It gets worse with sparser LiDAR or radar. That is why this older way does badly at colouring a map.</li>
+    <li><b>LiDAR onto the picture:</b> you get a thin, patchy distance picture. Two pixels that sit next to each other in the picture can be far apart in real 3D, so it loses shape.</li>
+    <li><b>Mixing deep inside the network</b> (FUTR3D, TransFusion) has the same problem.</li>
+    <li><b>BEV avoids both.</b> Putting LiDAR on a top-down map only flattens the height, so the shape is kept. Putting the camera on a top-down map keeps <i>all</i> the camera information. The authors say this is why a smaller camera image is enough, which saves computing.</li>
+  </ul>
+
+  <h3>9.2 Numbers for the camera transform and BEV pooling (Sec. III-B)</h3>
+  <table>
+    <tr><th>What</th><th>Value from the paper</th><th>Where in this repo</th></tr>
+    <tr><td>Cameras and image size</td><td>6 cameras, 256 × 704</td><td><code>image_size: [256, 704]</code></td></tr>
+    <tr><td>Feature picture (1/8 size)</td><td>32 × 88</td><td><code>feature_size</code></td></tr>
+    <tr><td>Distance guesses</td><td>1 to 60 m, every 0.5 m, so <b>118</b></td><td><code>dbound: [1.0, 60.0, 0.5]</code></td></tr>
+    <tr><td>Guess points per frame</td><td>6 × 32 × 88 × 118 = <b>1,993,728</b> (about 2 million), "two orders of magnitude" more than a LiDAR scan</td><td>the tensor made by <code>get_cam_feats</code></td></tr>
+    <tr><td>Slow way</td><td>over 500 ms on an RTX 3090, while the rest of the model took about 100 ms; over 80% of the run time; up to 2 s per scene in the original LSS code</td><td>—</td></tr>
+    <tr><td>Fast way</td><td>finding squares: 17 → 4 ms; adding up: 500 → 2 ms; the whole step: about <b>12 ms</b> (around 10% of the total). The paper calls this <b>40× faster</b></td><td><code>ops/bev_pool/</code></td></tr>
+  </table>
+  <p><b>The two tricks, simply:</b></p>
+  <ol>
+    <li><b>Do the work ahead of time.</b> The camera positions and lens settings do not change, so the real position and map square of every guess point can be worked out once. Sort the points by square and remember their order. Then at run time you only re-order the features. <i>(In this repo the positions are recalculated on every forward pass in <code>get_geometry</code>, and the sorting happens in the Python part of <code>bev_pool.py</code>, so I would not assume the repo saves this between frames.)</i></li>
+    <li><b>One worker per square.</b> The old way (from LSS) added up all points in one long running total and then subtracted at the borders. That needed many steps and wasted work on totals nobody used. BEVFusion gives each map square its own GPU worker. The worker adds up only its own points and writes one number. There is no waiting on other workers and no wasted totals. In the repo, <code>QuickCumsumCuda</code> computes <code>interval_starts</code> and <code>interval_lengths</code>, and the GPU program does the sums.</li>
+  </ol>
+  <p>The paper stresses that this gives the <b>exact same answer</b>. Two similar projects at the time (BEVDet and M2BEV) got speed by dropping points or assuming equal distances, which changes the result.</p>
+
+  <h3>9.3 Mixing the maps, and a known weak spot (Sec. III-C)</h3>
+  <p>Because both sensors are on the same map, mixing is simple, for example just stacking them. Then a small convolution network with "a few residual blocks" cleans up. The reason for it: the camera map depends on <i>guessed</i> distances, so it can sit a little off from the LiDAR map. The convolutions fix small shifts like that. The paper's own idea for a better fix is to train the distance guess with real distances, and it leaves that for future work.</p>
+  <div class="note">In this repo the "mix and clean up" part is split in two: <code>ConvFuser</code> (stack + one 3×3 convolution) and then the <code>SECOND</code> decoder, which gives the deeper convolutions. The name "ConvFuser" is the repo's, and I did not find it in the paper text. The <code>BEVDepth</code>-style versions in <code>vtransforms/</code> are the repo's way of training the distance guess directly, which the paper left for later.</div>
+
+  <h3>9.4 The heads (Sec. III-D, IV-B)</h3>
+  <ul>
+    <li><b>Detection:</b> the paper describes a heat map for each class that marks object centres (like CenterPoint), plus parts that predict size, rotation and speed. The released detection setup actually uses <code>TransFusionHead</code>, and the camera-only baselines use <code>CenterHead</code>. Both are in <code>heads/bbox/</code>.</li>
+    <li><b>Map colouring:</b> treated as several separate yes/no questions, one for each class, because map classes overlap (a crosswalk is also part of the road). Trained with focal loss (a loss that focuses on hard examples). It is scored on a 100 m × 100 m area around the car. Six classes: drivable area, pedestrian crossing, walkway, stop line, car park, divider.</li>
+    <li>Before each head, the fused map is resized to that task's area and detail level using bilinear sampling. The LiDAR box size is 0.075 m for detection and 0.1 m for map colouring.</li>
+  </ul>
+
+  <h3>9.5 Results on nuScenes</h3>
+  <table>
+    <tr><th>Method</th><th>Sensors</th><th>mAP (val)</th><th>NDS (val)</th><th>MACs (G)</th><th>Time per frame (ms, RTX 3090)</th></tr>
+    <tr><td>CenterPoint</td><td>LiDAR</td><td>59.6</td><td>66.8</td><td>153.5</td><td>80.7</td></tr>
+    <tr><td>PointPainting</td><td>Cam + LiDAR</td><td>65.8*</td><td>69.6*</td><td>370.0</td><td>185.8</td></tr>
+    <tr><td>MVP</td><td>Cam + LiDAR</td><td>66.1*</td><td>70.0*</td><td>371.7</td><td>187.1</td></tr>
+    <tr><td>FUTR3D</td><td>Cam + LiDAR</td><td>64.5</td><td>68.3</td><td>1069.0</td><td>321.4</td></tr>
+    <tr><td>TransFusion</td><td>Cam + LiDAR</td><td>67.5</td><td>71.3</td><td>485.8</td><td>156.6</td></tr>
+    <tr><td><b>BEVFusion</b></td><td>Cam + LiDAR</td><td><b>68.5</b></td><td><b>71.4</b></td><td><b>253.2</b></td><td><b>119.2</b> (about 8.4 frames per second)</td></tr>
+  </table>
+  <p style="font-size:.85rem;color:var(--muted)">mAP and NDS are accuracy scores (higher is better). MACs measure how much computing is needed (lower is better). * means the authors re-ran the method themselves. On the test set BEVFusion scores 70.2 mAP / 72.9 NDS against TransFusion's 68.9 / 71.6. That is 1.3 higher on both, using 1.9× less computing and 1.3× less time. Against MVP it is 3.8 mAP higher on test, with 1.5× less computing and 1.6× less time. (The README's "BEVFusion-base" and "BEVFusion-e" rows are bigger models and are not in this table.)</p>
+
+  <p><b>Waymo test set:</b> BEVFusion with 3 frames and test-time augmentation scores 85.7 mAP/L1 and 80.8 mAP/L2. That beats DeepFusion-Ens, which uses 5 frames.</p>
+
+  <p><b>Map colouring on nuScenes validation (mIoU, higher is better):</b></p>
+  <table>
+    <tr><th>Model</th><th>Drivable</th><th>Crossing</th><th>Walkway</th><th>Stop line</th><th>Car park</th><th>Divider</th><th>Mean</th></tr>
+    <tr><td>LiDAR only (CenterPoint)</td><td>75.6</td><td>48.4</td><td>57.5</td><td>36.5</td><td>31.7</td><td>41.9</td><td>48.6</td></tr>
+    <tr><td>Camera only (LSS)</td><td>75.4</td><td>38.8</td><td>46.3</td><td>30.3</td><td>39.1</td><td>36.5</td><td>44.4</td></tr>
+    <tr><td>PointPainting (Cam + LiDAR)</td><td colspan="6" style="text-align:center;color:var(--muted)">per-class numbers not extracted</td><td>49.1</td></tr>
+    <tr><td>BEVFusion camera only</td><td>81.7</td><td>54.8</td><td>58.4</td><td>47.4</td><td>50.7</td><td>46.4</td><td>56.6</td></tr>
+    <tr><td><b>BEVFusion (Cam + LiDAR)</b></td><td>85.5</td><td>60.5</td><td>67.6</td><td>52.0</td><td>57.0</td><td>53.7</td><td><b>62.7</b></td></tr>
+  </table>
+  <p>The "13.6% higher mIoU" in the abstract is 62.7 compared with PointPainting's 49.1. Notice that BEVFusion with <i>only the camera</i> (56.6) already beats the LiDAR-only model (48.6). This fits the idea that the camera's rich detail is very useful for map tasks.</p>
+
+  <h3>9.6 Bad weather and night (Sec. V)</h3>
+  <table>
+    <tr><th>Condition</th><th>LiDAR only (mAP)</th><th>BEVFusion Cam + LiDAR (mAP)</th><th>Gain</th></tr>
+    <tr><td>Sunny</td><td>62.9</td><td>68.2</td><td>+5.3</td></tr>
+    <tr><td>Rainy</td><td>59.2</td><td>69.9</td><td><b>+10.7</b></td></tr>
+    <tr><td>Day</td><td>62.8</td><td>68.5</td><td>+5.7</td></tr>
+    <tr><td>Night</td><td>35.4</td><td>42.8</td><td>+7.4</td></tr>
+  </table>
+  <p>For map colouring, fusion helps most at night: 43.6 mIoU against 30.8 for the camera alone (+12.8). The paper also says: fusion helps most on small and far-away objects, while MVP gains almost nothing on objects bigger than 4 m; and when the LiDAR has fewer laser beams, BEVFusion loses less accuracy than MVP, with a stated 12% gain in the 1-beam case. Those last points come from a figure (Figure 4) whose values I could not read, so treat them as the paper's claims without numbers.</p>
+  <div class="note warn"><b>Be careful with this table.</b> I got the numbers from a web version of the paper and they may be garbled. Two things look odd: the map-colouring "+" gains seem to be compared with the camera-only BEVFusion row, not with the LiDAR-only row (the paper does not say so), and the text says the camera-only model beats CenterPoint "on the entire benchmark", yet its night mIoU is 30.8 against CenterPoint's 37.0. Check Table IV in the PDF before relying on it.</div>
+
+  <h3>9.7 What I could not find in the paper text</h3>
+  <ul>
+    <li><b>How it was trained:</b> optimizer, learning rate, number of epochs, batch size, data tricks, pre-training and number of GPUs were <b>not found</b>. For these the repo's configs are the better source: AdamW, learning rate <code>2e-4</code>, 6 epochs for fusion, a cosine schedule, and the LiDAR-first training in the README.</li>
+    <li><b>Tests that remove parts</b> (stacking vs other ways of mixing, with and without the cleanup network) and a table of results at different image sizes were <b>not found</b>.</li>
+    <li><b>Exact channel counts</b> of the maps and the mixing network are not given. The repo's values (camera 80, LiDAR 256, fused 256, decoder 512) come from the configs.</li>
+    <li><b>Limitations:</b> no such section found. Things the paper does say: wrong distance guesses cause the two maps to not line up; it runs at only 8.4 frames per second on a desktop 3090 ("close to real-time"); other sensors (radar, event cameras) and other jobs (tracking, forecasting) are left for future work.</li>
+  </ul>
+
+  <h3>9.8 Paper idea → file in this repo</h3>
+  <table>
+    <tr><th>The paper says</th><th>In the repo</th></tr>
+    <tr><td>Swin-T + FPN, 1/8-size feature picture</td><td><code>SwinTransformer</code> + <code>GeneralizedLSSFPN</code> (<code>necks/generalized_lss.py</code>)</td></tr>
+    <tr><td>VoxelNet LiDAR network</td><td><code>SparseEncoder</code> (<code>backbones/sparse_encoder.py</code>)</td></tr>
+    <tr><td>Distance chances + lifting along the ray</td><td><code>LSSTransform</code> / <code>DepthLSSTransform</code> (<code>vtransforms/</code>)</td></tr>
+    <tr><td>Fast BEV pooling</td><td><code>ops/bev_pool/</code> (Python + <code>bev_pool_cuda.cu</code>)</td></tr>
+    <tr><td>Stack the maps + cleanup network</td><td><code>ConvFuser</code> + decoder <code>SECOND</code> / <code>SECONDFPN</code></td></tr>
+    <tr><td>Detection head</td><td><code>TransFusionHead</code> (fusion setup), <code>CenterHead</code> (camera-only setups)</td></tr>
+    <tr><td>Yes/no map colouring per class + focal loss</td><td><code>heads/segm/vanilla.py</code></td></tr>
+    <tr><td>Bilinear resize to each task's area</td><td>I did not find this in the files I read. Check the segmentation head and <code>necks/</code> before assuming where it is.</td></tr>
+  </table>
+</section>
+
+<section id="map">
+  <h2>10. Map of the repo</h2>
+  <table>
+    <tr><th>Path</th><th>What is inside</th></tr>
+    <tr><td><code>configs/</code></td><td>Settings files, stacked on top of each other (see section 7)</td></tr>
+    <tr><td><code>tools/</code></td><td><code>train.py</code>, <code>test.py</code>, <code>visualize.py</code>, <code>benchmark.py</code>, <code>export.py</code>, <code>create_data.py</code>, <code>data_converter/</code></td></tr>
+    <tr><td><code>mmdet3d/models/fusion_models/</code></td><td><b><code>bevfusion.py</code>: start here.</b> <code>base.py</code> is the shared parent class</td></tr>
+    <tr><td><code>mmdet3d/models/vtransforms/</code></td><td>Picture-to-top-down code: <code>base.py</code>, <code>lss.py</code>, <code>depth_lss.py</code>, <code>aware_bevdepth.py</code></td></tr>
+    <tr><td><code>mmdet3d/models/backbones/</code></td><td>Main networks: ResNet, DLA, VoVNet, Swin-T, <code>sparse_encoder.py</code>, <code>second.py</code>, pillar and radar encoders</td></tr>
+    <tr><td><code>mmdet3d/models/necks/</code></td><td><code>generalized_lss.py</code>, <code>lss.py</code>, <code>second.py</code> (SECONDFPN), <code>detectron_fpn.py</code></td></tr>
+    <tr><td><code>mmdet3d/models/fusers/</code></td><td><code>conv.py</code> (ConvFuser), <code>add.py</code></td></tr>
+    <tr><td><code>mmdet3d/models/heads/</code></td><td><code>bbox/</code> (TransFusion, CenterPoint), <code>segm/vanilla.py</code></td></tr>
+    <tr><td><code>mmdet3d/ops/</code></td><td>GPU/C++ programs: <code>bev_pool</code>, <code>voxel</code>, <code>spconv</code>, <code>iou3d</code>, <code>roiaware_pool3d</code>, plus several leftovers from the base mmdet3d project (<code>paconv</code>, <code>ball_query</code>, <code>knn</code>, ...)</td></tr>
+    <tr><td><code>mmdet3d/datasets/</code></td><td><code>nuscenes_dataset.py</code> and <code>pipelines/</code> (loading, data tricks, formatting)</td></tr>
+    <tr><td><code>mmdet3d/apis/</code>, <code>runner/</code>, <code>core/</code></td><td>Helpers for training and testing, the training runner, box and geometry helpers</td></tr>
+    <tr><td><code>setup.py</code></td><td>Compiles all the GPU programs above (<code>python setup.py develop</code>)</td></tr>
+    <tr><td><code>docker/Dockerfile</code></td><td>The authors' setup (old: PyTorch 1.10, CUDA 11.3)</td></tr>
+  </table>
+</section>
+
+<section id="read">
+  <h2>11. A good order to read the code</h2>
+  <ol>
+    <li><code>fusion_models/bevfusion.py</code>: the skeleton. Read <code>__init__</code> first, then <code>forward_single</code>.</li>
+    <li><code>vtransforms/base.py</code>, then <code>lss.py</code>, then <code>depth_lss.py</code>: the camera idea.</li>
+    <li><code>ops/bev_pool/bev_pool.py</code>: how dropping points on the map is made fast (glance at the <code>.cu</code> file afterwards).</li>
+    <li><code>fusers/conv.py</code>: two minutes.</li>
+    <li><code>backbones/sparse_encoder.py</code>: the LiDAR side.</li>
+    <li><code>heads/bbox/transfusion.py</code>: the biggest file. Read <code>forward</code> and <code>loss</code> first.</li>
+    <li><code>datasets/pipelines/transforms_3d.py</code>: where the saved augmentation matrices are made.</li>
+    <li><code>tools/train.py</code> and <code>tools/test.py</code>: how everything gets started.</li>
+  </ol>
+</section>
+
+<section id="run">
+  <h2>12. Running it: what to know</h2>
+  <div class="card">
+    <p><b>The original setup needs:</b> Python 3.8, PyTorch 1.10.2 or older, mmcv 1.4.0, mmdet 2.20.0, CUDA 11.x, OpenMPI + torchpack, and a compiler to build the GPU programs.</p>
+    <p><b>Newest graphics cards (RTX 50-series):</b> CUDA 11.x and PyTorch 1.10 cannot use them, so the original setup will not run. You need PyTorch 2.7 or newer with CUDA 12.8 or newer. That means updating the old mmcv 1.x code, rebuilding the GPU programs for the new PyTorch, and replacing the old copy of <code>spconv</code> and the MPI launcher.</p>
+    <p><b>Memory:</b> the paper trains on 8 GPUs. A 12 GB card would need a small batch size and probably smaller images to train. Running a finished model (inference) is more realistic.</p>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap">Written from reading the code in this repo and the paper. Sizes come from the <code>swint_v0p075</code> configs. The LiDAR map's 256 channels is worked out from the fuser's <code>in_channels</code>, not checked in the sparse-convolution code.</div></footer>
+
+<script>
+const S = {
+  img:{t:"Input images",c:"cam",s:"6 × 3 × 256 × 704",f:"datasets/pipelines/loading.py, transforms_3d.py (ImageAug3D)",d:"Six cameras around the car take a picture each. The pictures are resized, cropped and flipped a bit (<code>ImageAug3D</code>). The change is saved as <code>img_aug_matrix</code> so it can be undone later when working out 3D positions."},
+  cbb:{t:"Swin-T network + GeneralizedLSSFPN",c:"cam",s:"6 × 256 × 32 × 88 (one-eighth size)",f:"models/backbones/ (SwinTransformer), models/necks/generalized_lss.py",d:"The Swin Transformer finds patterns in each picture at several sizes (192, 384 and 768 channels). The neck combines them into 256 channels. <code>bevfusion.py</code> keeps the first one, which has the most detail."},
+  vt:{t:"View transform (DepthLSSTransform)",c:"cam",s:"6 × 118 distances × 32 × 88 × 80 numbers, about 2 million feature lists",f:"models/vtransforms/depth_lss.py, base.py",d:"Guesses the distance of every pixel and shares its features across the likely distances (lift). It works out each guess point's 3D position from the camera setup (<code>get_geometry</code>), then <code>bev_pool</code> adds up everything that lands in the same map square (splat). LiDAR points are also projected onto the picture to give the distance guess a hint."},
+  cbev:{t:"Camera top-down map",c:"cam",s:"80 × 180 × 180",f:"output of vtransform",d:"The map covers ±54 m with 0.3 m squares (360 × 360). One more convolution step then halves it to 180 × 180 so it matches the LiDAR map. The height direction is merged into the channels."},
+  pts:{t:"LiDAR points",c:"lidar",s:"N × 5 (x, y, z, intensity, time)",f:"datasets/pipelines/loading.py (LoadPointsFromMultiSweeps)",d:"The current scan plus 9 earlier scans, shifted to account for the car's movement, to make a denser cloud. It comes from a 32-beam LiDAR. Only points within ±54 m sideways and from -5 m to 3 m in height are kept."},
+  vox:{t:"Voxelization",c:"lidar",s:"about 100,000 filled voxels out of a 1440 × 1440 × 41 grid",f:"ops/voxel/, bevfusion.py voxelize()",d:"Points are sorted into tiny boxes of 0.075 × 0.075 × 0.2 m (up to 10 points each). Each box keeps the average of its points. Only boxes that contain points are kept, which is what lets the next step skip empty space."},
+  sp:{t:"SparseEncoder (sparse 3D convolution)",c:"lidar",s:"sparse 3D → flat 2D",f:"models/backbones/sparse_encoder.py, ops/spconv/",d:"Four stages of 3D convolutions (16 → 32 → 64 → 128 channels) that only compute where there are filled boxes. At the end the result is made dense and the height direction is merged into the channels."},
+  lbev:{t:"LiDAR top-down map",c:"lidar",s:"256 × 180 × 180",f:"output of SparseEncoder",d:"It has the same 180 × 180 grid as the camera map, so the two can be stacked square by square."},
+  fuse:{t:"ConvFuser",c:"fuse",s:"(80 + 256) → 256 × 180 × 180",f:"models/fusers/conv.py",d:"Stack the two maps along the channels, then apply a 3×3 convolution, normalisation and ReLU. It is simple, and it works because both sensors are already on the same top-down map."},
+  dec:{t:"Decoder: SECOND + SECONDFPN",c:"fuse",s:"256 → 512 × 180 × 180",f:"models/backbones/second.py, models/necks/second.py",d:"A small 2D network on the fused map (two stages, 128 and 256 channels). The neck brings both back to the same size and joins them: 256 + 256 = 512 channels."},
+  head:{t:"TransFusionHead",c:"head",s:"200 candidates × 10 classes",f:"models/heads/bbox/transfusion.py",d:"Picks the 200 best spots on the heat map, improves them with a transformer layer, and predicts each object's centre, height, size, rotation and speed. Training matches guesses to real objects one-to-one. A map-colouring head can be used instead."},
+  out:{t:"Result",c:"head",s:"boxes_3d, scores_3d, labels_3d  (or masks_bev)",f:"bevfusion.py, lines ~363-388",d:"For each sample, the model returns 3D boxes with a confidence score and a class name, or a mask per class for the map job. Detection is scored with mAP and NDS, map colouring with mIoU."}
+};
+const detail = document.getElementById('detail');
+document.querySelectorAll('.stage').forEach(el=>{
+  el.addEventListener('click',()=>{
+    document.querySelectorAll('.stage').forEach(x=>x.classList.remove('on'));
+    el.classList.add('on');
+    const s=S[el.dataset.k];
+    detail.innerHTML = `<h3><span class="tag t-${s.c}">${s.c}</span> ${s.t}</h3>
+      <p>${s.d}</p>
+      <p><b>Data size:</b> <span class="shape">${s.s}</span></p>
+      <p><b>Code:</b> <code>${s.f}</code></p>`;
+  });
+});
+
+// depth distribution demo
+const D=118, bars=document.getElementById('bars');
+for(let i=0;i<D;i++){bars.appendChild(document.createElement('div'));}
+function drawBars(){
+  const conf=+document.getElementById('conf').value, td=+document.getElementById('tdep').value;
+  document.getElementById('tdv').textContent=td+' m';
+  const logits=[];let mx=-1e9;
+  for(let i=0;i<D;i++){const d=1+i*0.5;const l=-conf*Math.abs(d-td)/6;logits.push(l);mx=Math.max(mx,l);}
+  const ex=logits.map(l=>Math.exp(l-mx));const sum=ex.reduce((a,b)=>a+b,0);
+  const p=ex.map(e=>e/sum);const pm=Math.max(...p);
+  [...bars.children].forEach((b,i)=>{b.style.height=(p[i]/pm*100)+'%'; b.title=(1+i*0.5)+' m: '+(p[i]*100).toFixed(1)+'%';});
+}
+['conf','tdep'].forEach(id=>document.getElementById(id).addEventListener('input',drawBars));
+drawBars();
+
+// BEV pool demo
+const cv=document.getElementById('bevc'),cx=cv.getContext('2d');
+let pts=[];
+function gen(){
+  pts=[];
+  for(let r=0;r<14;r++){
+    const ang=(-0.7+1.4*Math.random());
+    for(let k=0;k<22;k++){
+      const dist=30+Math.random()*(cv.height-50);
+      pts.push([cv.width/2+Math.sin(ang)*dist*1.2+(Math.random()-.5)*10, cv.height-8-Math.cos(ang)*dist]);
+    }
+  }
+}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function drawBev(){
+  const cell=+document.getElementById('cell').value;
+  cx.clearRect(0,0,cv.width,cv.height);
+  const cols=Math.ceil(cv.width/cell),rows=Math.ceil(cv.height/cell),cnt={};
+  let used=0;
+  pts.forEach(p=>{const k=Math.floor(p[0]/cell)+','+Math.floor(p[1]/cell);cnt[k]=(cnt[k]||0)+1;});
+  const max=Math.max(...Object.values(cnt));
+  const accent=css('--cam');
+  for(const k in cnt){
+    const [i,j]=k.split(',').map(Number);used++;
+    cx.globalAlpha=0.15+0.7*cnt[k]/max;cx.fillStyle=accent;cx.fillRect(i*cell,j*cell,cell,cell);
+  }
+  cx.globalAlpha=1;cx.strokeStyle=css('--line');cx.lineWidth=1;
+  for(let i=0;i<=cols;i++){cx.beginPath();cx.moveTo(i*cell,0);cx.lineTo(i*cell,cv.height);cx.stroke();}
+  for(let j=0;j<=rows;j++){cx.beginPath();cx.moveTo(0,j*cell);cx.lineTo(cv.width,j*cell);cx.stroke();}
+  cx.fillStyle=css('--ink');
+  pts.forEach(p=>{cx.beginPath();cx.arc(p[0],p[1],2,0,6.3);cx.fill();});
+  document.getElementById('stat').textContent=` ${pts.length} features → ${used} filled squares`;
+}
+document.getElementById('cell').addEventListener('input',drawBev);
+document.getElementById('regen').addEventListener('click',()=>{gen();drawBev();});
+gen();drawBev();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',drawBev);
+</script>
+</body>
+</html>
